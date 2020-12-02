@@ -22,7 +22,6 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	trivylog "github.com/aquasecurity/trivy/pkg/log"
@@ -45,13 +44,15 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
+	rootCmd.SetOut(os.Stdout)
+	rootCmd.SetErr(os.Stderr)
+
 	// disable trivy logger
 	if err := trivylog.InitLogger(false, true); err != nil {
-		fmt.Println(err)
+		rootCmd.PrintErrln(err)
 		os.Exit(1)
 	}
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
 		os.Exit(1)
 	}
 }
