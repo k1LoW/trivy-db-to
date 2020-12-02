@@ -19,13 +19,53 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package cmd
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/k1LoW/trivy-db-to-db/cmd"
+	"fmt"
+
+	"github.com/k1LoW/trivy-db-to-db/drivers"
+	"github.com/k1LoW/trivy-db-to-db/drivers/mysql"
+	"github.com/spf13/cobra"
+	"github.com/xo/dburl"
 )
 
-func main() {
-	cmd.Execute()
+// initCmd represents the init command
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "init",
+	Long:  `init.`,
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		var (
+			driver drivers.Driver
+			err    error
+		)
+		cmd.PrintErrln("Initialize table...")
+		dsn := args[0]
+		u, err := dburl.Parse(dsn)
+		if err != nil {
+			return err
+		}
+		db, err := dburl.Open(dsn)
+		if err != nil {
+			return err
+		}
+		defer db.Close()
+		switch u.Driver {
+		case "mysql":
+			driver, err = mysql.New(db)
+			if err != nil {
+				return err
+			}
+		default:
+			return fmt.Errorf("unsupported driver '%s'", u.Driver)
+		}
+
+		return driver.CreateTable()
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(initCmd)
 }
