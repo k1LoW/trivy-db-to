@@ -25,6 +25,7 @@ import (
 	"context"
 	"fmt"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/k1LoW/trivy-db-to-db/drivers"
@@ -33,6 +34,8 @@ import (
 	"github.com/xo/dburl"
 	bolt "go.etcd.io/bbolt"
 )
+
+const chunkSize = 100
 
 var updateCmd = &cobra.Command{
 	Use:   "update",
@@ -48,7 +51,7 @@ var updateCmd = &cobra.Command{
 		if cacheDir == "" {
 			cacheDir = cacheDirPath()
 		}
-		cmd.PrintErrln("Fetch trivy-db...")
+
 		if err := fetchTrivyDB(ctx, cacheDir, light, quiet, skipUpdate); err != nil {
 			return err
 		}
@@ -81,24 +84,61 @@ var updateCmd = &cobra.Command{
 
 		if err := trivydb.View(func(tx *bolt.Tx) error {
 			b := tx.Bucket([]byte("vulnerability"))
-			if err := b.ForEach(func(vID, v []byte) error {
-				return driver.InsertVuln(vID, v)
-			}); err != nil {
-				return err
+			c := b.Cursor()
+			started := false
+			ended := false
+			for {
+				vulns := [][][]byte{}
+				if !started {
+					k, v := c.First()
+					vulns = append(vulns, [][]byte{k, v})
+					started = true
+				}
+				for i := 0; i < chunkSize; i++ {
+					k, v := c.Next()
+					if k == nil {
+						ended = true
+						break
+					}
+					vulns = append(vulns, [][]byte{k, v})
+				}
+				if len(vulns) > 0 {
+					if err := driver.InsertVuln(vulns); err != nil {
+						return err
+					}
+				}
+				if ended {
+					break
+				}
 			}
-
 			if err := tx.ForEach(func(source []byte, b *bolt.Bucket) error {
 				ss := string(source)
 				if ss == "trivy" || ss == "vulnerability" {
 					return nil
 				}
 				cmd.PrintErrln(ss)
-				return b.ForEach(func(pkg, _ []byte) error {
+				c := b.Cursor()
+				vulnds := [][][]byte{}
+				for pkg, _ := c.First(); pkg != nil; pkg, _ = c.Next() {
 					cb := b.Bucket(pkg)
-					return cb.ForEach(func(vID, v []byte) error {
-						return driver.InsertVulnDetail(vID, source, pkg, v)
-					})
-				})
+					cbc := cb.Cursor()
+					for vID, v := cbc.First(); vID != nil; vID, v = cbc.Next() {
+						splited := strings.SplitAfterN(ss, " ", 2)
+						platform := []byte(splited[0])
+						segment := []byte("")
+						if len(splited) == 2 {
+							segment = []byte(splited[1])
+						}
+						vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
+					}
+					if len(vulnds) > chunkSize {
+						if err := driver.InsertVulnDetail(vulnds); err != nil {
+							return err
+						}
+						vulnds = [][][]byte{}
+					}
+				}
+				return nil
 			}); err != nil {
 				return err
 			}
