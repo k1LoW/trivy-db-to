@@ -37,6 +37,7 @@ func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 		return err
 	}
 	if needsUpdate {
+		_, _ = fmt.Fprint(os.Stderr, "\n")
 		if err := dbClient.Download(ctx, cacheDir, light); err != nil {
 			return err
 		}
@@ -55,7 +56,7 @@ func InitDB(ctx context.Context, dsn string) error {
 		driver drivers.Driver
 		err    error
 	)
-	_, _ = fmt.Fprintf(os.Stderr, "%s", "Initializing table ... ")
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Initializing vulnerability information tables ... ")
 	u, err := dburl.Parse(dsn)
 	if err != nil {
 		return err
@@ -83,7 +84,7 @@ func InitDB(ctx context.Context, dsn string) error {
 }
 
 func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
-	_, _ = fmt.Fprintf(os.Stderr, "%s", "Updating target tables ... \n")
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Updating vulnerability information tables ... \n")
 	var (
 		driver drivers.Driver
 		err    error
