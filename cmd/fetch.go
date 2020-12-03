@@ -23,6 +23,8 @@ package cmd
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	db2 "github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/db"
@@ -57,6 +59,7 @@ func init() {
 }
 
 func fetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate bool) error {
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching trivy-db ... ")
 	config := db2.Config{}
 	client := github.NewClient()
 	progressBar := indicator.NewProgressBar(quiet)
@@ -75,6 +78,9 @@ func fetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 		if err := dbClient.UpdateMetadata(cacheDir); err != nil {
 			return err
 		}
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
+	} else {
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "already exist")
 	}
 	return nil
 }

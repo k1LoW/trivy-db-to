@@ -23,6 +23,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/k1LoW/trivy-db-to-db/drivers"
 	"github.com/k1LoW/trivy-db-to-db/drivers/mysql"
@@ -41,7 +42,7 @@ var initCmd = &cobra.Command{
 			driver drivers.Driver
 			err    error
 		)
-		cmd.PrintErrln("Initialize table...")
+		_, _ = fmt.Fprintf(os.Stderr, "%s", "Initializing table ... ")
 		dsn := args[0]
 		u, err := dburl.Parse(dsn)
 		if err != nil {
@@ -62,7 +63,11 @@ var initCmd = &cobra.Command{
 			return fmt.Errorf("unsupported driver '%s'", u.Driver)
 		}
 
-		return driver.CreateTable()
+		if err := driver.CreateTable(); err != nil {
+			return err
+		}
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
+		return nil
 	},
 }
 

@@ -37,10 +37,11 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:     "trivy-db-to-db",
-	Short:   "Tool for migrating/converting from trivy-db to RDBMS",
-	Long:    `Tool for migrating/converting from trivy-db to RDBMS.`,
-	Version: version.Version,
+	Use:          "trivy-db-to-db",
+	Short:        "Tool for migrating/converting from trivy-db to RDBMS",
+	Long:         `Tool for migrating/converting from trivy-db to RDBMS.`,
+	SilenceUsage: true,
+	Version:      version.Version,
 }
 
 func Execute() {
