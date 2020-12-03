@@ -29,8 +29,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/k1LoW/trivy-db-to-db/drivers"
-	"github.com/k1LoW/trivy-db-to-db/drivers/mysql"
+	"github.com/k1LoW/trivy-db-to/drivers"
+	"github.com/k1LoW/trivy-db-to/drivers/mysql"
 	"github.com/spf13/cobra"
 	"github.com/xo/dburl"
 	bolt "go.etcd.io/bbolt"

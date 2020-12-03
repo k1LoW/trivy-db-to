@@ -25,7 +25,7 @@ import (
 	"os"
 
 	trivylog "github.com/aquasecurity/trivy/pkg/log"
-	"github.com/k1LoW/trivy-db-to-db/version"
+	"github.com/k1LoW/trivy-db-to/version"
 	"github.com/spf13/cobra"
 )
 
@@ -37,7 +37,7 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:          "trivy-db-to-db",
+	Use:          "trivy-db-to",
 	Short:        "Tool for migrating/converting from trivy-db to RDBMS",
 	Long:         `Tool for migrating/converting from trivy-db to RDBMS.`,
 	SilenceUsage: true,

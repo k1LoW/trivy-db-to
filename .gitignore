@@ -1,4 +1,4 @@
-trivy-db-to-db
+trivy-db-to
 dist/
 coverage.txt
 .envrc

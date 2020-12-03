@@ -23,7 +23,7 @@ package main
 
 import (
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/k1LoW/trivy-db-to-db/cmd"
+	"github.com/k1LoW/trivy-db-to/cmd"
 )
 
 func main() {

@@ -30,7 +30,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/github"
 	"github.com/aquasecurity/trivy/pkg/indicator"
-	"github.com/k1LoW/trivy-db-to-db/version"
+	"github.com/k1LoW/trivy-db-to/version"
 	"github.com/shibukawa/configdir"
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
@@ -86,7 +86,7 @@ func fetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 }
 
 func cacheDirPath() string {
-	configDirs := configdir.New("", "trivy-db-to-db")
+	configDirs := configdir.New("", "trivy-db-to")
 	cache := configDirs.QueryCacheFolder()
 	return cache.Path
 }

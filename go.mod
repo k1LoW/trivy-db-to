@@ -1,4 +1,4 @@
-module github.com/k1LoW/trivy-db-to-db
+module github.com/k1LoW/trivy-db-to
 
 go 1.15
 
