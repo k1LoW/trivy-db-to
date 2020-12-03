@@ -41,4 +41,4 @@ done
 
 ## Support datasource
 
-- MySQL
+- MySQL ( [schema](docs/schema/README.md) )
