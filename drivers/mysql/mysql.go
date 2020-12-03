@@ -21,7 +21,7 @@ func New(db *sql.DB) (*Mysql, error) {
 
 func (m *Mysql) CreateIfNotExistTables(ctx context.Context) error {
 	var count int
-	if err := m.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('vulnerabilities', 'vulnerability_details');`).Scan(&count); err != nil {
+	if err := m.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('vulnerabilities', 'vulnerability_advisories');`).Scan(&count); err != nil {
 		return err
 	}
 	switch count {
@@ -34,9 +34,9 @@ func (m *Mysql) CreateIfNotExistTables(ctx context.Context) error {
 	if _, err := m.db.Exec(`CREATE TABLE vulnerabilities (
 id int PRIMARY KEY AUTO_INCREMENT,
 vulnerability_id varchar (25) NOT NULL,
-vuln json NOT NULL,
+value json NOT NULL,
 created timestamp NOT NULL
-) COMMENT = 'vulnerability details via trivy-db' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`); err != nil {
+) COMMENT = 'vulnerabilities obtained via Trivy DB' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`); err != nil {
 		return err
 	}
 
@@ -44,7 +44,7 @@ created timestamp NOT NULL
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE TABLE vulnerability_details (
+	if _, err := m.db.Exec(`CREATE TABLE vulnerability_advisories (
 id int PRIMARY KEY AUTO_INCREMENT,
 vulnerability_id varchar (25) NOT NULL,
 platform varchar (50) NOT NULL,
@@ -52,27 +52,27 @@ segment varchar (50) NOT NULL,
 package varchar (100) NOT NULL,
 value json NOT NULL,
 created timestamp NOT NULL
-) COMMENT = 'vulnerability details via trivy-db' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`); err != nil {
+) COMMENT = 'vulnerability advisories obtained via Trivy DB' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX vd_vulnerability_details_idx ON vulnerability_details(vulnerability_id, platform, segment, package) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX va_vulnerability_advisories_idx ON vulnerability_advisories(vulnerability_id, platform, segment, package) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX vd_vulnerability_id_idx ON vulnerability_details(vulnerability_id) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX va_vulnerability_id_idx ON vulnerability_advisories(vulnerability_id) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX vd_platform_idx ON vulnerability_details(platform) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX va_platform_idx ON vulnerability_advisories(platform) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX vd_source_idx ON vulnerability_details(platform, segment) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX va_source_idx ON vulnerability_advisories(platform, segment) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX vd_source_package_idx ON vulnerability_details(platform, segment, package) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX va_source_package_idx ON vulnerability_advisories(platform, segment, package) USING BTREE;`); err != nil {
 		return err
 	}
 
@@ -80,7 +80,7 @@ created timestamp NOT NULL
 }
 
 func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
-	query := fmt.Sprintf("INSERT INTO vulnerabilities(vulnerability_id,vuln) VALUES (?,?)%s", strings.Repeat(", (?,?)", len(vulns)-1))
+	query := fmt.Sprintf("INSERT INTO vulnerabilities(vulnerability_id,value) VALUES (?,?)%s", strings.Repeat(", (?,?)", len(vulns)-1))
 
 	ins, err := m.db.Prepare(query)
 	if err != nil {
@@ -98,7 +98,7 @@ func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 }
 
 func (m *Mysql) InsertVulnDetail(ctx context.Context, vulnds [][][]byte) error {
-	query := fmt.Sprintf("INSERT INTO vulnerability_details(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1))
+	query := fmt.Sprintf("INSERT INTO vulnerability_advisories(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1))
 	ins, err := m.db.Prepare(query)
 	if err != nil {
 		return err
@@ -122,8 +122,8 @@ func (m *Mysql) TruncateVulns(ctx context.Context) error {
 	return nil
 }
 
-func (m *Mysql) TruncateVulnDetails(ctx context.Context) error {
-	if _, err := m.db.Exec(`TRUNCATE TABLE vulnerability_details;`); err != nil {
+func (m *Mysql) TruncateVulnAdvisories(ctx context.Context) error {
+	if _, err := m.db.Exec(`TRUNCATE TABLE vulnerability_advisories;`); err != nil {
 		return err
 	}
 	return nil

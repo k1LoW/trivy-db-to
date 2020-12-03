@@ -149,8 +149,8 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 			}
 		}
 
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Update table 'vulnerability_details' ... ")
-		if err := driver.TruncateVulnDetails(ctx); err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Update table 'vulnerability_advisories' ... ")
+		if err := driver.TruncateVulnAdvisories(ctx); err != nil {
 			return err
 		}
 		if err := tx.ForEach(func(source []byte, b *bolt.Bucket) error {
