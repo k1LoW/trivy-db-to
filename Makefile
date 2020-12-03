@@ -11,15 +11,22 @@ export GO111MODULE=on
 
 BUILD_LDFLAGS = -X $(PKG).commit=$(COMMIT) -X $(PKG).date=$(DATE)
 
+TEST_MYSQL_DSN = mysql://root:mypass@127.0.0.1:33357/trivydb
+
 default: test
 
-ci: depsdev test sec
+ci: depsdev test integration sec
 
 test:
 	go test ./... -coverprofile=coverage.txt -covermode=count
 
 sec:
 	gosec ./...
+
+integration: build
+	./trivy-db-to $(TEST_MYSQL_DSN)
+	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
+	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
 
 build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
@@ -28,6 +35,7 @@ depsdev:
 	go get github.com/Songmu/ghch/cmd/ghch
 	go get github.com/Songmu/gocredits/cmd/gocredits
 	go get github.com/securego/gosec/cmd/gosec
+	go get github.com/xo/usql
 
 prerelease:
 	git pull origin --tag
