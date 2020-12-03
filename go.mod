@@ -11,5 +11,7 @@ require (
 	github.com/spf13/cobra v1.1.1
 	github.com/xo/dburl v0.0.0-20200910011426-652e0d5720a3
 	go.etcd.io/bbolt v1.3.5
+	golang.org/x/mod v0.4.0 // indirect
+	golang.org/x/tools v0.0.0-20201202200335-bef1c476418a // indirect
 	k8s.io/utils v0.0.0-20201005171033-6301aaf42dc7
 )

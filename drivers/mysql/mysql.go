@@ -80,7 +80,7 @@ created timestamp NOT NULL
 }
 
 func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
-	query := fmt.Sprintf("INSERT INTO vulnerabilities(vulnerability_id,value) VALUES (?,?)%s", strings.Repeat(", (?,?)", len(vulns)-1))
+	query := fmt.Sprintf("INSERT INTO vulnerabilities(vulnerability_id,value) VALUES (?,?)%s", strings.Repeat(", (?,?)", len(vulns)-1)) // #nosec
 
 	ins, err := m.db.Prepare(query)
 	if err != nil {
@@ -98,7 +98,7 @@ func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 }
 
 func (m *Mysql) InsertVulnDetail(ctx context.Context, vulnds [][][]byte) error {
-	query := fmt.Sprintf("INSERT INTO vulnerability_advisories(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1))
+	query := fmt.Sprintf("INSERT INTO vulnerability_advisories(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1)) // #nosec
 	ins, err := m.db.Prepare(query)
 	if err != nil {
 		return err
