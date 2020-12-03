@@ -1,0 +1,15 @@
+name: "vulnerability information obtained via Trivy DB"
+dsn: mysql://root:mypass@127.0.0.1:33357/trivydb
+docPath: docs/schema
+comments:
+- table: vulnerabilities
+  columnComments:
+    vulnerability_id: Vulnerability ID
+    value: Vulnerability data
+- table: vulnerability_advisories
+  columnComments:
+    vulnerability_id: Vulnerability ID
+    platform: Platform name ( ex. 'ubuntu', 'GitHub Security Advisory' )
+    segment: Platform segment ( ex. '18.04', 'Rubygems' )
+    package: Package name ( ex. 'apache', 'actionpack' )
+    value: Advisory data
