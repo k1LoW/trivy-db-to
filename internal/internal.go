@@ -165,11 +165,12 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 				cb := b.Bucket(pkg)
 				cbc := cb.Cursor()
 				for vID, v := cbc.First(); vID != nil; vID, v = cbc.Next() {
-					splited := strings.SplitAfterN(s, " ", 2)
-					platform := []byte(splited[0])
+					platform := []byte(s)
 					segment := []byte("")
-					if len(splited) == 2 {
-						segment = []byte(splited[1])
+					splited := strings.Split(s, " ")
+					if len(splited) > 1 {
+						platform = []byte(strings.Join(splited[0:len(splited)-1], " "))
+						segment = []byte(splited[len(splited)-1])
 					}
 					vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
 				}
