@@ -5,8 +5,7 @@
 ## Usage
 
 ``` console
-$ trivy-db-to mysql://127.0.0.1:3306/mydb
-trivy-db-to mysql://root:mypass@127.0.0.1:33357/trivydb
+$ trivy-db-to mysql://root:mypass@127.0.0.1:3306/mydb
 Fetching and updating Trivy DB ...
 19.35 MiB / 19.35 MiB [--------------------------------------------------] 100.00% 2.58 MiB p/s 8s
 done
