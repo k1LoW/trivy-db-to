@@ -19,7 +19,7 @@ func New(db *sql.DB) (*Mysql, error) {
 }
 
 func (m *Mysql) CreateTable(ctx context.Context) error {
-	if _, err := m.db.Exec(`CREATE TABLE IF NOT EXISTS vulnerabilities (
+	if _, err := m.db.Exec(`CREATE TABLE vulnerabilities (
 id int PRIMARY KEY AUTO_INCREMENT,
 vulnerability_id varchar (25) NOT NULL,
 vuln json NOT NULL,
@@ -28,11 +28,11 @@ created timestamp NOT NULL
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX IF NOT EXISTS v_vulnerability_id_idx ON vulnerabilities(vulnerability_id) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX v_vulnerability_id_idx ON vulnerabilities(vulnerability_id) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE TABLE IF NOT EXISTS vulnerability_details (
+	if _, err := m.db.Exec(`CREATE TABLE vulnerability_details (
 id int PRIMARY KEY AUTO_INCREMENT,
 vulnerability_id varchar (25) NOT NULL,
 platform varchar (50) NOT NULL,
@@ -44,23 +44,23 @@ created timestamp NOT NULL
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX IF NOT EXISTS vd_vulnerability_details_idx ON vulnerability_details(vulnerability_id, platform, segment, package) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX vd_vulnerability_details_idx ON vulnerability_details(vulnerability_id, platform, segment, package) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX IF NOT EXISTS vd_vulnerability_id_idx ON vulnerability_details(vulnerability_id) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX vd_vulnerability_id_idx ON vulnerability_details(vulnerability_id) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX IF NOT EXISTS vd_platform_idx ON vulnerability_details(platform) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX vd_platform_idx ON vulnerability_details(platform) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX IF NOT EXISTS vd_source_idx ON vulnerability_details(platform, segment) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX vd_source_idx ON vulnerability_details(platform, segment) USING BTREE;`); err != nil {
 		return err
 	}
 
-	if _, err := m.db.Exec(`CREATE INDEX IF NOT EXISTS vd_source_package_idx ON vulnerability_details(platform, segment, package) USING BTREE;`); err != nil {
+	if _, err := m.db.Exec(`CREATE INDEX vd_source_package_idx ON vulnerability_details(platform, segment, package) USING BTREE;`); err != nil {
 		return err
 	}
 
@@ -98,6 +98,20 @@ func (m *Mysql) InsertVulnDetail(ctx context.Context, vulnds [][][]byte) error {
 	}
 	{
 		_, err := ins.Exec(values...)
+		return err
+	}
+	return nil
+}
+
+func (m *Mysql) TruncateVulns(ctx context.Context) error {
+	if _, err := m.db.Exec(`TRUNCATE TABLE vulnerabilities;`); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *Mysql) TruncateVulnDetails(ctx context.Context) error {
+	if _, err := m.db.Exec(`TRUNCATE TABLE vulnerability_details;`); err != nil {
 		return err
 	}
 	return nil
