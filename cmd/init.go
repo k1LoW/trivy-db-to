@@ -22,6 +22,7 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -42,6 +43,8 @@ var initCmd = &cobra.Command{
 			driver drivers.Driver
 			err    error
 		)
+		ctx := context.Background()
+
 		_, _ = fmt.Fprintf(os.Stderr, "%s", "Initializing table ... ")
 		dsn := args[0]
 		u, err := dburl.Parse(dsn)
@@ -63,7 +66,7 @@ var initCmd = &cobra.Command{
 			return fmt.Errorf("unsupported driver '%s'", u.Driver)
 		}
 
-		if err := driver.CreateTable(); err != nil {
+		if err := driver.CreateTable(ctx); err != nil {
 			return err
 		}
 		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")

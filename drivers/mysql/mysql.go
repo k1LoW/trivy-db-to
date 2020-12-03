@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"strings"
@@ -17,7 +18,7 @@ func New(db *sql.DB) (*Mysql, error) {
 	}, nil
 }
 
-func (m *Mysql) CreateTable() error {
+func (m *Mysql) CreateTable(ctx context.Context) error {
 	if _, err := m.db.Exec(`CREATE TABLE vulnerabilities (
 id int PRIMARY KEY AUTO_INCREMENT,
 vulnerability_id varchar (25) NOT NULL,
@@ -66,7 +67,7 @@ created timestamp NOT NULL
 	return nil
 }
 
-func (m *Mysql) InsertVuln(vulns [][][]byte) error {
+func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 	query := fmt.Sprintf("INSERT INTO vulnerabilities(vulnerability_id,vuln) VALUES (?,?)%s", strings.Repeat(", (?,?)", len(vulns)-1))
 
 	ins, err := m.db.Prepare(query)
@@ -84,7 +85,7 @@ func (m *Mysql) InsertVuln(vulns [][][]byte) error {
 	}
 }
 
-func (m *Mysql) InsertVulnDetail(vulnds [][][]byte) error {
+func (m *Mysql) InsertVulnDetail(ctx context.Context, vulnds [][][]byte) error {
 	query := fmt.Sprintf("INSERT INTO vulnerability_details(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1))
 	ins, err := m.db.Prepare(query)
 	if err != nil {

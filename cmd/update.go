@@ -103,7 +103,7 @@ var updateCmd = &cobra.Command{
 					vulns = append(vulns, [][]byte{k, v})
 				}
 				if len(vulns) > 0 {
-					if err := driver.InsertVuln(vulns); err != nil {
+					if err := driver.InsertVuln(ctx, vulns); err != nil {
 						return err
 					}
 				}
@@ -132,7 +132,7 @@ var updateCmd = &cobra.Command{
 						vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
 					}
 					if len(vulnds) > chunkSize {
-						if err := driver.InsertVulnDetail(vulnds); err != nil {
+						if err := driver.InsertVulnDetail(ctx, vulnds); err != nil {
 							return err
 						}
 						vulnds = [][][]byte{}
