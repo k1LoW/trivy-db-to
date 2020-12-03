@@ -63,8 +63,9 @@ var updateCmd = &cobra.Command{
 	},
 }
 
-// updateDB ...
+// updateDB
 func updateDB(ctx context.Context, cacheDir, dsn string) error {
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Updating target tables ... ")
 	var (
 		driver drivers.Driver
 		err    error
@@ -96,6 +97,7 @@ func updateDB(ctx context.Context, cacheDir, dsn string) error {
 	defer trivydb.Close()
 
 	if err := trivydb.View(func(tx *bolt.Tx) error {
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "vulnerabilities")
 		b := tx.Bucket([]byte("vulnerability"))
 		c := b.Cursor()
 		started := false
@@ -124,12 +126,14 @@ func updateDB(ctx context.Context, cacheDir, dsn string) error {
 				break
 			}
 		}
+
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "vulnerability_details")
 		if err := tx.ForEach(func(source []byte, b *bolt.Bucket) error {
 			s := string(source)
 			if s == "trivy" || s == "vulnerability" {
 				return nil
 			}
-			_, _ = fmt.Fprintf(os.Stderr, "%s\n", s)
+			_, _ = fmt.Fprintf(os.Stderr, ">>> %s\n", s)
 			c := b.Cursor()
 			vulnds := [][][]byte{}
 			for pkg, _ := c.First(); pkg != nil; pkg, _ = c.Next() {
@@ -160,6 +164,7 @@ func updateDB(ctx context.Context, cacheDir, dsn string) error {
 	}); err != nil {
 		return err
 	}
+	_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
 	return nil
 }
 
