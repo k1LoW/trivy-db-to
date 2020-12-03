@@ -3,6 +3,7 @@ package mysql
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -18,7 +19,18 @@ func New(db *sql.DB) (*Mysql, error) {
 	}, nil
 }
 
-func (m *Mysql) CreateTable(ctx context.Context) error {
+func (m *Mysql) CreateIfNotExistTables(ctx context.Context) error {
+	var count int
+	if err := m.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('vulnerabilities', 'vulnerability_details');`).Scan(&count); err != nil {
+		return err
+	}
+	switch count {
+	case 2:
+		return nil
+	case 1:
+		return errors.New("invalid table schema")
+	}
+
 	if _, err := m.db.Exec(`CREATE TABLE vulnerabilities (
 id int PRIMARY KEY AUTO_INCREMENT,
 vulnerability_id varchar (25) NOT NULL,

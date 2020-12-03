@@ -50,6 +50,7 @@ const chunkSize = 100
 var (
 	quiet      bool
 	light      bool
+	skipInit   bool
 	skipUpdate bool
 	cacheDir   string
 )
@@ -105,7 +106,7 @@ func init() {
 }
 
 func fetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate bool) error {
-	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching trivy-db ... ")
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating trivy-db ... ")
 	config := db2.Config{}
 	client := github.NewClient()
 	progressBar := indicator.NewProgressBar(quiet)
@@ -126,7 +127,7 @@ func fetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 		}
 		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
 	} else {
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "already exist")
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done (already exist)")
 	}
 	return nil
 }
@@ -162,7 +163,7 @@ func initDB(ctx context.Context, dsn string) error {
 		return fmt.Errorf("unsupported driver '%s'", u.Driver)
 	}
 
-	if err := driver.CreateTable(ctx); err != nil {
+	if err := driver.CreateIfNotExistTables(ctx); err != nil {
 		return err
 	}
 	_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
