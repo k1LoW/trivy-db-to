@@ -10,6 +10,7 @@ require (
 	github.com/spf13/afero v1.2.2
 	github.com/spf13/cobra v1.1.1
 	github.com/xo/dburl v0.0.0-20200910011426-652e0d5720a3
+	go.etcd.io/bbolt v1.3.5
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 	k8s.io/utils v0.0.0-20201005171033-6301aaf42dc7
 )
