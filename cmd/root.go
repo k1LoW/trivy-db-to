@@ -57,8 +57,10 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		if err := internal.InitDB(ctx, dsn); err != nil {
-			return err
+		if !skipInit {
+			if err := internal.InitDB(ctx, dsn); err != nil {
+				return err
+			}
 		}
 
 		if err := internal.UpdateDB(ctx, cacheDir, dsn); err != nil {
@@ -87,6 +89,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&light, "light", "", false, "light")
 	// rootCmd.Flags().BoolVarP(&quiet, "quiet", "", false, "quiet")
 	quiet = false
+	rootCmd.Flags().BoolVarP(&skipInit, "skip-init-db", "", false, "skip initializing target datasource")
 	rootCmd.Flags().BoolVarP(&skipUpdate, "skip-update", "", false, "skip updating Trivy DB")
 	rootCmd.Flags().StringVarP(&cacheDir, "cache-dir", "", "", "cache dir")
 }
