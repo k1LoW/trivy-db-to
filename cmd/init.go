@@ -39,39 +39,46 @@ var initCmd = &cobra.Command{
 	Long:  `init.`,
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		var (
-			driver drivers.Driver
-			err    error
-		)
 		ctx := context.Background()
-
-		_, _ = fmt.Fprintf(os.Stderr, "%s", "Initializing table ... ")
 		dsn := args[0]
-		u, err := dburl.Parse(dsn)
-		if err != nil {
-			return err
-		}
-		db, err := dburl.Open(dsn)
-		if err != nil {
-			return err
-		}
-		defer db.Close()
-		switch u.Driver {
-		case "mysql":
-			driver, err = mysql.New(db)
-			if err != nil {
-				return err
-			}
-		default:
-			return fmt.Errorf("unsupported driver '%s'", u.Driver)
-		}
 
-		if err := driver.CreateTable(ctx); err != nil {
+		if err := initDB(ctx, dsn); err != nil {
 			return err
 		}
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
 		return nil
 	},
+}
+
+func initDB(ctx context.Context, dsn string) error {
+	var (
+		driver drivers.Driver
+		err    error
+	)
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Initializing table ... ")
+	u, err := dburl.Parse(dsn)
+	if err != nil {
+		return err
+	}
+	db, err := dburl.Open(dsn)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+	switch u.Driver {
+	case "mysql":
+		driver, err = mysql.New(db)
+		if err != nil {
+			return err
+		}
+	default:
+		return fmt.Errorf("unsupported driver '%s'", u.Driver)
+	}
+
+	if err := driver.CreateTable(ctx); err != nil {
+		return err
+	}
+	_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
+	return nil
 }
 
 func init() {
