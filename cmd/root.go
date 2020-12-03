@@ -85,7 +85,8 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().BoolVarP(&light, "light", "", false, "light")
-	rootCmd.Flags().BoolVarP(&quiet, "quiet", "", false, "quiet")
+	// rootCmd.Flags().BoolVarP(&quiet, "quiet", "", false, "quiet")
+	quiet = false
 	rootCmd.Flags().BoolVarP(&skipUpdate, "skip-update", "", false, "skip updating Trivy DB")
 	rootCmd.Flags().StringVarP(&cacheDir, "cache-dir", "", "", "cache dir")
 }
