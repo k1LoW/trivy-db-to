@@ -24,6 +24,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -43,10 +44,6 @@ var updateCmd = &cobra.Command{
 	Long:  `update.`,
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		var (
-			driver drivers.Driver
-			err    error
-		)
 		ctx := context.Background()
 		if cacheDir == "" {
 			cacheDir = cacheDirPath()
@@ -57,99 +54,113 @@ var updateCmd = &cobra.Command{
 		}
 
 		dsn := args[0]
-		u, err := dburl.Parse(dsn)
+
+		if err := updateDB(ctx, cacheDir, dsn); err != nil {
+			return err
+		}
+
+		return nil
+	},
+}
+
+// updateDB ...
+func updateDB(ctx context.Context, cacheDir, dsn string) error {
+	var (
+		driver drivers.Driver
+		err    error
+	)
+
+	u, err := dburl.Parse(dsn)
+	if err != nil {
+		return err
+	}
+	db, err := dburl.Open(dsn)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+	switch u.Driver {
+	case "mysql":
+		driver, err = mysql.New(db)
 		if err != nil {
 			return err
 		}
-		db, err := dburl.Open(dsn)
-		if err != nil {
-			return err
-		}
-		defer db.Close()
-		switch u.Driver {
-		case "mysql":
-			driver, err = mysql.New(db)
-			if err != nil {
-				return err
+	default:
+		return fmt.Errorf("unsupported driver '%s'", u.Driver)
+	}
+
+	trivydb, err := bolt.Open(filepath.Join(cacheDir, "db", "trivy.db"), 0600, &bolt.Options{Timeout: 1 * time.Second})
+	if err != nil {
+		return err
+	}
+	defer trivydb.Close()
+
+	if err := trivydb.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("vulnerability"))
+		c := b.Cursor()
+		started := false
+		ended := false
+		for {
+			vulns := [][][]byte{}
+			if !started {
+				k, v := c.First()
+				vulns = append(vulns, [][]byte{k, v})
+				started = true
 			}
-		default:
-			return fmt.Errorf("unsupported driver '%s'", u.Driver)
-		}
-
-		trivydb, err := bolt.Open(filepath.Join(cacheDir, "db", "trivy.db"), 0600, &bolt.Options{Timeout: 1 * time.Second})
-		if err != nil {
-			return err
-		}
-		defer trivydb.Close()
-
-		if err := trivydb.View(func(tx *bolt.Tx) error {
-			b := tx.Bucket([]byte("vulnerability"))
-			c := b.Cursor()
-			started := false
-			ended := false
-			for {
-				vulns := [][][]byte{}
-				if !started {
-					k, v := c.First()
-					vulns = append(vulns, [][]byte{k, v})
-					started = true
-				}
-				for i := 0; i < chunkSize; i++ {
-					k, v := c.Next()
-					if k == nil {
-						ended = true
-						break
-					}
-					vulns = append(vulns, [][]byte{k, v})
-				}
-				if len(vulns) > 0 {
-					if err := driver.InsertVuln(ctx, vulns); err != nil {
-						return err
-					}
-				}
-				if ended {
+			for i := 0; i < chunkSize; i++ {
+				k, v := c.Next()
+				if k == nil {
+					ended = true
 					break
 				}
+				vulns = append(vulns, [][]byte{k, v})
 			}
-			if err := tx.ForEach(func(source []byte, b *bolt.Bucket) error {
-				ss := string(source)
-				if ss == "trivy" || ss == "vulnerability" {
-					return nil
+			if len(vulns) > 0 {
+				if err := driver.InsertVuln(ctx, vulns); err != nil {
+					return err
 				}
-				cmd.PrintErrln(ss)
-				c := b.Cursor()
-				vulnds := [][][]byte{}
-				for pkg, _ := c.First(); pkg != nil; pkg, _ = c.Next() {
-					cb := b.Bucket(pkg)
-					cbc := cb.Cursor()
-					for vID, v := cbc.First(); vID != nil; vID, v = cbc.Next() {
-						splited := strings.SplitAfterN(ss, " ", 2)
-						platform := []byte(splited[0])
-						segment := []byte("")
-						if len(splited) == 2 {
-							segment = []byte(splited[1])
-						}
-						vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
-					}
-					if len(vulnds) > chunkSize {
-						if err := driver.InsertVulnDetail(ctx, vulnds); err != nil {
-							return err
-						}
-						vulnds = [][][]byte{}
-					}
-				}
+			}
+			if ended {
+				break
+			}
+		}
+		if err := tx.ForEach(func(source []byte, b *bolt.Bucket) error {
+			s := string(source)
+			if s == "trivy" || s == "vulnerability" {
 				return nil
-			}); err != nil {
-				return err
 			}
-
+			_, _ = fmt.Fprintf(os.Stderr, "%s\n", s)
+			c := b.Cursor()
+			vulnds := [][][]byte{}
+			for pkg, _ := c.First(); pkg != nil; pkg, _ = c.Next() {
+				cb := b.Bucket(pkg)
+				cbc := cb.Cursor()
+				for vID, v := cbc.First(); vID != nil; vID, v = cbc.Next() {
+					splited := strings.SplitAfterN(s, " ", 2)
+					platform := []byte(splited[0])
+					segment := []byte("")
+					if len(splited) == 2 {
+						segment = []byte(splited[1])
+					}
+					vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
+				}
+				if len(vulnds) > chunkSize {
+					if err := driver.InsertVulnDetail(ctx, vulnds); err != nil {
+						return err
+					}
+					vulnds = [][][]byte{}
+				}
+			}
 			return nil
 		}); err != nil {
 			return err
 		}
 
 		return nil
-	},
+	}); err != nil {
+		return err
+	}
+	return nil
 }
 
 func init() {
