@@ -56,9 +56,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:          "trivy-db-to",
-	Short:        "Tool for migrating/converting from trivy-db to RDBMS",
-	Long:         `Tool for migrating/converting from trivy-db to RDBMS.`,
+	Use:          "trivy-db-to [DSN]",
+	Short:        "trivy-db-to is a tool for migrating/converting vulnerability information from Trivy DB to other datasource",
+	Long:         `trivy-db-to is a tool for migrating/converting vulnerability information from Trivy DB to other datasource.`,
 	SilenceUsage: true,
 	Version:      version.Version,
 	Args:         cobra.ExactArgs(1),
@@ -101,12 +101,12 @@ func Execute() {
 func init() {
 	rootCmd.Flags().BoolVarP(&light, "light", "", false, "light")
 	rootCmd.Flags().BoolVarP(&quiet, "quiet", "", false, "quiet")
-	rootCmd.Flags().BoolVarP(&skipUpdate, "skip-update", "", false, "skip updating trivy-db")
+	rootCmd.Flags().BoolVarP(&skipUpdate, "skip-update", "", false, "skip updating Trivy DB")
 	rootCmd.Flags().StringVarP(&cacheDir, "cache-dir", "", "", "cache dir")
 }
 
 func fetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate bool) error {
-	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating trivy-db ... ")
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating Trivy DB ... ")
 	config := db2.Config{}
 	client := github.NewClient()
 	progressBar := indicator.NewProgressBar(quiet)
@@ -203,7 +203,7 @@ func updateDB(ctx context.Context, cacheDir, dsn string) error {
 	defer trivydb.Close()
 
 	if err := trivydb.View(func(tx *bolt.Tx) error {
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Updating vulnerabilities ... ")
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Updating table 'vulnerabilities' ... ")
 		if err := driver.TruncateVulns(ctx); err != nil {
 			return err
 		}
@@ -236,7 +236,7 @@ func updateDB(ctx context.Context, cacheDir, dsn string) error {
 			}
 		}
 
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Update vulnerability_details ... ")
+		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Update table 'vulnerability_details' ... ")
 		if err := driver.TruncateVulnDetails(ctx); err != nil {
 			return err
 		}
