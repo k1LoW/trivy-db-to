@@ -1,5 +1,7 @@
 # trivy-db-to
 
+[![build](https://github.com/k1LoW/trivy-db-to/workflows/build/badge.svg)](https://github.com/k1LoW/trivy-db-to/actions)
+
 `trivy-db-to` is a tool for migrating/converting vulnerability information from [Trivy DB](https://github.com/aquasecurity/trivy-db) to other datasource.
 
 ## Usage
