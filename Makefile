@@ -25,8 +25,8 @@ sec:
 
 integration: build
 	./trivy-db-to $(TEST_MYSQL_DSN)
-	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
-	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
+	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '\d\d\d\d\d'
+	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '\d\d\d\d\d\d'
 
 build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
