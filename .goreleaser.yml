@@ -1,0 +1,68 @@
+before:
+  hooks:
+    - go mod download
+    - go mod tidy
+builds:
+-
+  id: trivy-db-to-linux
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - linux
+  goarch:
+    - amd64
+  ldflags:
+    - -s -w -X github.com/k1LoW/trivy-db-to.version={{.Version}} -X github.com/k1LoW/trivy-db-to.commit={{.FullCommit}} -X github.com/k1LoW/trivy-db-to.date={{.Date}} -X github.com/k1LoW/trivy-db-to/version.Version={{.Version}}
+-
+  id: trivy-db-to-darwin
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - darwin
+  goarch:
+    - amd64
+  ldflags:
+    - -s -w -X github.com/k1LoW/trivy-db-to.version={{.Version}} -X github.com/k1LoW/trivy-db-to.commit={{.FullCommit}} -X github.com/k1LoW/trivy-db-to.date={{.Date}} -X github.com/k1LoW/trivy-db-to/version.Version={{.Version}}
+archives:
+-
+  id: trivy-db-to-archive
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+  format_overrides:
+    - goos: darwin
+      format: zip
+  files:
+    - CREDITS
+    - README.md
+    - CHANGELOG.md
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Version }}-next"
+changelog:
+  skip: true
+brews:
+-
+  name: trivy-db-to
+  github:
+    owner: k1LoW
+    name: homebrew-tap
+  commit_author:
+    name: k1LoW
+    email: k1lowxb@gmail.com
+  homepage: https://github.com/k1LoW/trivy-db-to
+  description: trivy-db-to is a tool for migrating/converting vulnerability information from Trivy DB to other datasource.
+nfpms:
+  -
+    id: trivy-db-to-nfpms
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}-1_{{ .Arch }}"
+    builds:
+    - trivy-db-to-linux
+    homepage: https://github.com/k1LoW/trivy-db-to
+    maintainer: Ken'ichiro Oyama <k1lowxb@gmail.com>
+    description: trivy-db-to is a tool for migrating/converting vulnerability information from Trivy DB to other datasource.
+    license: MIT
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
+    epoch: 1
