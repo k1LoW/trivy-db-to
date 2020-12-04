@@ -44,3 +44,37 @@ done
 ## Support datasource
 
 - MySQL ( [schema](docs/schema/README.md) )
+
+## Install
+
+**deb:**
+
+Use [dpkg-i-from-url](https://github.com/k1LoW/dpkg-i-from-url)
+
+``` console
+$ export TRIVY-DB-TO_VERSION=X.X.X
+$ curl -L https://git.io/dpkg-i-from-url | bash -s -- https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY-DB-TO_VERSION/trivy-db-to_$TRIVY-DB-TO_VERSION-1_amd64.deb
+```
+
+**RPM:**
+
+``` console
+$ export TRIVY-DB-TO_VERSION=X.X.X
+$ yum install https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY-DB-TO_VERSION/trivy-db-to_$TRIVY-DB-TO_VERSION-1_amd64.rpm
+```
+
+**homebrew tap:**
+
+```console
+$ brew install k1LoW/tap/trivy-db-to
+```
+
+**manually:**
+
+Download binary from [releases page](https://github.com/k1LoW/trivy-db-to/releases)
+
+**go get:**
+
+```console
+$ go get github.com/k1LoW/trivy-db-to
+```
