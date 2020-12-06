@@ -1,6 +1,6 @@
 name: "vulnerability information obtained via Trivy DB"
 dsn: mysql://root:mypass@127.0.0.1:33357/trivydb
-docPath: docs/schema
+docPath: docs/schema/mysql
 comments:
 - table: vulnerabilities
   columnComments:

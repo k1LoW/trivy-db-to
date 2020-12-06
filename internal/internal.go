@@ -14,6 +14,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/indicator"
 	"github.com/k1LoW/trivy-db-to/drivers"
 	"github.com/k1LoW/trivy-db-to/drivers/mysql"
+	"github.com/k1LoW/trivy-db-to/drivers/postgres"
 	"github.com/k1LoW/trivy-db-to/version"
 	"github.com/spf13/afero"
 	"github.com/xo/dburl"
@@ -72,6 +73,11 @@ func InitDB(ctx context.Context, dsn string) error {
 		if err != nil {
 			return err
 		}
+	case "postgres":
+		driver, err = postgres.New(db)
+		if err != nil {
+			return err
+		}
 	default:
 		return fmt.Errorf("unsupported driver '%s'", u.Driver)
 	}
@@ -102,6 +108,11 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 	switch u.Driver {
 	case "mysql":
 		driver, err = mysql.New(db)
+		if err != nil {
+			return err
+		}
+	case "postgres":
+		driver, err = postgres.New(db)
 		if err != nil {
 			return err
 		}

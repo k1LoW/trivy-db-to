@@ -43,7 +43,8 @@ done
 
 ## Support datasource
 
-- MySQL ( [schema](docs/schema/README.md) )
+- MySQL ( [schema](docs/schema/mysql/README.md) )
+- PostgreSQL ( [schema](docs/schema/postgres/README.md) )
 
 ## Install
 
