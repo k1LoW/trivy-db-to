@@ -97,7 +97,7 @@ func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 	}
 }
 
-func (m *Mysql) InsertVulnDetail(ctx context.Context, vulnds [][][]byte) error {
+func (m *Mysql) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) error {
 	query := fmt.Sprintf("INSERT INTO vulnerability_advisories(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1)) // #nosec
 	ins, err := m.db.Prepare(query)
 	if err != nil {

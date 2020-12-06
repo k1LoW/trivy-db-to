@@ -175,7 +175,7 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 					vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
 				}
 				if len(vulnds) > chunkSize {
-					if err := driver.InsertVulnDetail(ctx, vulnds); err != nil {
+					if err := driver.InsertVulnAdvisory(ctx, vulnds); err != nil {
 						return err
 					}
 					vulnds = [][][]byte{}
