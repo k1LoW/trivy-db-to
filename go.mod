@@ -6,6 +6,7 @@ require (
 	github.com/aquasecurity/trivy v0.13.0
 	github.com/aquasecurity/trivy-db v0.0.0-20201117092632-b09c30858fc2
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/lib/pq v1.9.0
 	github.com/shibukawa/configdir v0.0.0-20170330084843-e180dbdc8da0
 	github.com/spf13/afero v1.2.2
 	github.com/spf13/cobra v1.1.1

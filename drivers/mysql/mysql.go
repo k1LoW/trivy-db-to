@@ -112,7 +112,6 @@ func (m *Mysql) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) error
 		_, err := ins.Exec(values...)
 		return err
 	}
-	return nil
 }
 
 func (m *Mysql) TruncateVulns(ctx context.Context) error {

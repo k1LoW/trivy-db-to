@@ -10,3 +10,12 @@ services:
     environment:
       - MYSQL_DATABASE=trivydb
       - MYSQL_ROOT_PASSWORD=mypass
+  postgres:
+    image: postgres:10
+    restart: always
+    ports:
+      - "35432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pgpass
+      - POSTGRES_DB=trivydb

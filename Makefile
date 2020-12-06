@@ -12,6 +12,7 @@ export GO111MODULE=on
 BUILD_LDFLAGS = -X $(PKG).commit=$(COMMIT) -X $(PKG).date=$(DATE)
 
 TEST_MYSQL_DSN = mysql://root:mypass@127.0.0.1:33357/trivydb
+TEST_POSTGRES_DSN = pg://postgres:pgpass@127.0.0.1:35432/trivydb?sslmode=disable
 
 default: test
 
@@ -23,12 +24,21 @@ test:
 sec:
 	gosec ./...
 
+doc:
+	tbls doc -f -c docs/tbls-mysql.yml
+	tbls doc -f -c docs/tbls-postgres.yml
+
 integration: build
 	./trivy-db-to $(TEST_MYSQL_DSN)
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '[0-9]\{5\}'
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '[0-9]\{6\}'
+	./trivy-db-to $(TEST_POSTGRES_DSN)
+	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
+	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '[0-9]\{5\}'
+	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
+	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '[0-9]\{6\}'
 
 build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
