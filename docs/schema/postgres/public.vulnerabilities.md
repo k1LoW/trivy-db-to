@@ -11,7 +11,7 @@ vulnerabilities obtained via Trivy DB
 | id | integer | nextval('vulnerabilities_id_seq'::regclass) | false |  |  |  |
 | vulnerability_id | varchar(25) |  | false |  |  | Vulnerability ID |
 | value | json |  | false |  |  | Vulnerability data |
-| created | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
+| created_at | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
 
 ## Constraints
 
