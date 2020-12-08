@@ -35,7 +35,7 @@ func (m *Mysql) CreateIfNotExistTables(ctx context.Context) error {
 id int PRIMARY KEY AUTO_INCREMENT,
 vulnerability_id varchar (25) NOT NULL,
 value json NOT NULL,
-created timestamp NOT NULL
+created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) COMMENT = 'vulnerabilities obtained via Trivy DB' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`); err != nil {
 		return err
 	}
@@ -51,7 +51,7 @@ platform varchar (50) NOT NULL,
 segment varchar (50) NOT NULL,
 package varchar (100) NOT NULL,
 value json NOT NULL,
-created timestamp NOT NULL
+created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) COMMENT = 'vulnerability advisories obtained via Trivy DB' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`); err != nil {
 		return err
 	}

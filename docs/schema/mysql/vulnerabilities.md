@@ -12,7 +12,7 @@ CREATE TABLE `vulnerabilities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vulnerability_id` varchar(25) NOT NULL,
   `value` json NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `v_vulnerability_id_idx` (`vulnerability_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=[Redacted by tbls] DEFAULT CHARSET=utf8mb4 COMMENT='vulnerabilities obtained via Trivy DB'
@@ -27,7 +27,7 @@ CREATE TABLE `vulnerabilities` (
 | id | int(11) |  | false |  |  |  |
 | vulnerability_id | varchar(25) |  | false |  |  | Vulnerability ID |
 | value | json |  | false |  |  | Vulnerability data |
-| created | timestamp | CURRENT_TIMESTAMP | false |  |  |  |
+| created_at | datetime | CURRENT_TIMESTAMP | false |  |  |  |
 
 ## Constraints
 

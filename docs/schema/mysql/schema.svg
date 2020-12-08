@@ -27,8 +27,8 @@
 <text text-anchor="start" x="50" y="-128.9" font-family="Arial" font-size="14.00" fill="#000000">value </text>
 <text text-anchor="start" x="87.345" y="-128.9" font-family="Arial" font-size="14.00" fill="#666666">[json]</text>
 <polygon fill="none" stroke="#000000" points="43,-87.5 43,-117.5 263,-117.5 263,-87.5 43,-87.5"/>
-<text text-anchor="start" x="50" y="-98.9" font-family="Arial" font-size="14.00" fill="#000000">created </text>
-<text text-anchor="start" x="100.5722" y="-98.9" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
+<text text-anchor="start" x="50" y="-98.9" font-family="Arial" font-size="14.00" fill="#000000">created_at </text>
+<text text-anchor="start" x="120.028" y="-98.9" font-family="Arial" font-size="14.00" fill="#666666">[datetime]</text>
 </g>
 <!-- vulnerability_advisories -->
 <g id="node2" class="node">
@@ -57,8 +57,8 @@
 <text text-anchor="start" x="375" y="-83.9" font-family="Arial" font-size="14.00" fill="#000000">value </text>
 <text text-anchor="start" x="412.345" y="-83.9" font-family="Arial" font-size="14.00" fill="#666666">[json]</text>
 <polygon fill="none" stroke="#000000" points="368,-42.5 368,-72.5 665,-72.5 665,-42.5 368,-42.5"/>
-<text text-anchor="start" x="375" y="-53.9" font-family="Arial" font-size="14.00" fill="#000000">created </text>
-<text text-anchor="start" x="425.5722" y="-53.9" font-family="Arial" font-size="14.00" fill="#666666">[timestamp]</text>
+<text text-anchor="start" x="375" y="-53.9" font-family="Arial" font-size="14.00" fill="#000000">created_at </text>
+<text text-anchor="start" x="445.028" y="-53.9" font-family="Arial" font-size="14.00" fill="#666666">[datetime]</text>
 </g>
 </g>
 </svg>

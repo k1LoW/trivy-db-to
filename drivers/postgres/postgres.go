@@ -35,7 +35,7 @@ func (m *Postgres) CreateIfNotExistTables(ctx context.Context) error {
 id serial PRIMARY KEY,
 vulnerability_id varchar (25) NOT NULL,
 value json NOT NULL,
-created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )`); err != nil {
 		return err
 	}
@@ -55,7 +55,7 @@ platform varchar (50) NOT NULL,
 segment varchar (50) NOT NULL,
 package varchar (100) NOT NULL,
 value json NOT NULL,
-created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )`); err != nil {
 		return err
 	}
