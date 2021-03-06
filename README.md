@@ -54,7 +54,7 @@ Use [dpkg-i-from-url](https://github.com/k1LoW/dpkg-i-from-url)
 
 ``` console
 $ export TRIVY_DB_TO_VERSION=X.X.X
-$ curl -L https://git.io/dpkg-i-from-url | bash -s -- https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY_DB_TO_VERSION/trivy-db-to_$TRIVY_DB_TO_VERSION-1_amd64.deb
+$ curl -L https://git.io/dpkg-i-from-url | sh -s -- https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY_DB_TO_VERSION/trivy-db-to_$TRIVY_DB_TO_VERSION-1_amd64.deb
 ```
 
 **RPM:**
