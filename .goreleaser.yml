@@ -40,17 +40,32 @@ snapshot:
   name_template: "{{ .Version }}-next"
 changelog:
   skip: true
+dockers:
+  -
+    goos: linux
+    goarch: amd64
+    image_templates:
+      - 'ghcr.io/k1low/trivy-db-to:v{{ .Version }}'
+      - 'ghcr.io/k1low/trivy-db-to:latest'
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.name={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/k1LoW/trivy-db-to"
 brews:
--
-  name: trivy-db-to
-  github:
-    owner: k1LoW
-    name: homebrew-tap
-  commit_author:
-    name: k1LoW
-    email: k1lowxb@gmail.com
-  homepage: https://github.com/k1LoW/trivy-db-to
-  description: trivy-db-to is a tool for migrating/converting vulnerability information from Trivy DB to other datasource.
+  -
+    name: trivy-db-to
+    tap:
+      owner: k1LoW
+      name: homebrew-tap
+    commit_author:
+      name: k1LoW
+      email: k1lowxb@gmail.com
+    homepage: https://github.com/k1LoW/trivy-db-to
+    description: trivy-db-to is a tool for migrating/converting vulnerability information from Trivy DB to other datasource.
+    license: MIT
 nfpms:
   -
     id: trivy-db-to-nfpms
@@ -64,5 +79,6 @@ nfpms:
     formats:
       - deb
       - rpm
+      - apk
     bindir: /usr/bin
     epoch: 1
