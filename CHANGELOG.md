@@ -1,3 +1,7 @@
+## [v1.0.0](https://github.com/k1LoW/trivy-db-to/compare/v0.3.0...v1.0.0) (2021-03-06)
+
+* Add dockers: setting [#3](https://github.com/k1LoW/trivy-db-to/pull/3) ([k1LoW](https://github.com/k1LoW))
+
 ## [v0.3.0](https://github.com/k1LoW/trivy-db-to/compare/v0.2.0...v0.3.0) (2020-12-08)
 
 * [BREAKING] Update schema [#2](https://github.com/k1LoW/trivy-db-to/pull/2) ([k1LoW](https://github.com/k1LoW))
