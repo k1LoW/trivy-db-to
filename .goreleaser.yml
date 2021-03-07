@@ -49,6 +49,7 @@ dockers:
       - 'ghcr.io/k1low/trivy-db-to:latest'
     dockerfile: Dockerfile
     build_flag_templates:
+      - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.name={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
