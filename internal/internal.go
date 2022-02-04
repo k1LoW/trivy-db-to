@@ -52,7 +52,7 @@ func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 	return nil
 }
 
-func InitDB(ctx context.Context, dsn string) error {
+func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName string) error {
 	var (
 		driver drivers.Driver
 		err    error
@@ -69,7 +69,7 @@ func InitDB(ctx context.Context, dsn string) error {
 	defer db.Close()
 	switch u.Driver {
 	case "mysql":
-		driver, err = mysql.New(db)
+		driver, err = mysql.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
@@ -89,7 +89,7 @@ func InitDB(ctx context.Context, dsn string) error {
 	return nil
 }
 
-func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
+func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, advisoryTableName string) error {
 	_, _ = fmt.Fprintf(os.Stderr, "%s", "Updating vulnerability information tables ... \n")
 	var (
 		driver drivers.Driver
@@ -107,7 +107,7 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 	defer db.Close()
 	switch u.Driver {
 	case "mysql":
-		driver, err = mysql.New(db)
+		driver, err = mysql.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
