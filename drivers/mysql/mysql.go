@@ -26,7 +26,6 @@ func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Mysql
 func (m *Mysql) CreateIfNotExistTables(ctx context.Context) error {
 	var count int
 	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName)
-	fmt.Printf(stmt)
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
 		return err
 	}
