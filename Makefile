@@ -16,13 +16,16 @@ TEST_POSTGRES_DSN = pg://postgres:pgpass@127.0.0.1:35432/trivydb?sslmode=disable
 
 default: test
 
-ci: depsdev test integration sec
+ci: depsdev test integration
 
 test:
 	go test ./... -coverprofile=coverage.txt -covermode=count
 
 sec:
 	gosec ./...
+
+lint:
+	golangci-lint run ./...
 
 doc:
 	tbls doc -f -c docs/tbls-mysql.yml
@@ -44,10 +47,10 @@ build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
 
 depsdev:
-	go get github.com/Songmu/ghch/cmd/ghch
-	go get github.com/Songmu/gocredits/cmd/gocredits
-	go get github.com/securego/gosec/cmd/gosec
-	go get github.com/xo/usql
+	go install github.com/Songmu/ghch/cmd/ghch@v0.10.2
+	go install github.com/xo/usql@v0.9.5
+	go install github.com/Songmu/gocredits/cmd/gocredits@v0.2.0
+	go install github.com/securego/gosec/cmd/gosec@master
 
 prerelease:
 	git pull origin --tag

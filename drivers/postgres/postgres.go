@@ -9,23 +9,23 @@ import (
 )
 
 type Postgres struct {
-	db *sql.DB
+	db                       *sql.DB
 	vulnerabilitiesTableName string
-	adivosryTableName string
+	adivosryTableName        string
 }
 
 // New return *Postgres
 func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Postgres, error) {
 	return &Postgres{
-		db: db,
+		db:                       db,
 		vulnerabilitiesTableName: vulnerabilitiesTableName,
-		adivosryTableName: adivosryTableName,
+		adivosryTableName:        adivosryTableName,
 	}, nil
 }
 
 func (m *Postgres) CreateIfNotExistTables(ctx context.Context) error {
 	var count int
-	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = current_schema() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName)
+	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = current_schema() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName) // #nosec
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
 		return err
 	}
@@ -35,8 +35,6 @@ func (m *Postgres) CreateIfNotExistTables(ctx context.Context) error {
 	case 1:
 		return errors.New("invalid table schema")
 	}
-
-
 
 	stmt = fmt.Sprintf(`CREATE TABLE %s (
 id serial PRIMARY KEY,

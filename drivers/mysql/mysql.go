@@ -9,23 +9,23 @@ import (
 )
 
 type Mysql struct {
-	db *sql.DB
+	db                       *sql.DB
 	vulnerabilitiesTableName string
-	adivosryTableName string
+	adivosryTableName        string
 }
 
 // New return *Mysql
 func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Mysql, error) {
 	return &Mysql{
-		db: db,
+		db:                       db,
 		vulnerabilitiesTableName: vulnerabilitiesTableName,
-		adivosryTableName: adivosryTableName,
+		adivosryTableName:        adivosryTableName,
 	}, nil
 }
 
 func (m *Mysql) CreateIfNotExistTables(ctx context.Context) error {
 	var count int
-	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName)
+	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName) // #nosec
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
 		return err
 	}
@@ -51,7 +51,6 @@ created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 	if _, err := m.db.Exec(stmt); err != nil {
 		return err
 	}
-
 
 	stmt = fmt.Sprintf(`CREATE TABLE %s (
 id int PRIMARY KEY AUTO_INCREMENT,
