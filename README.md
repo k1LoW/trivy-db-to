@@ -83,10 +83,10 @@ $ brew install k1LoW/tap/trivy-db-to
 
 Download binary from [releases page](https://github.com/k1LoW/trivy-db-to/releases)
 
-**go get:**
+**go install:**
 
 ```console
-$ go get github.com/k1LoW/trivy-db-to
+$ go install github.com/k1LoW/trivy-db-to@latest
 ```
 
 **docker:**
