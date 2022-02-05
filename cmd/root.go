@@ -38,6 +38,8 @@ var (
 	skipInit   bool
 	skipUpdate bool
 	cacheDir   string
+	vulnerabilitiesTableName   string
+	adivisoryTableName   string
 )
 
 var rootCmd = &cobra.Command{
@@ -58,12 +60,12 @@ var rootCmd = &cobra.Command{
 		}
 
 		if !skipInit {
-			if err := internal.InitDB(ctx, dsn); err != nil {
+			if err := internal.InitDB(ctx, dsn, vulnerabilitiesTableName, adivisoryTableName); err != nil {
 				return err
 			}
 		}
 
-		if err := internal.UpdateDB(ctx, cacheDir, dsn); err != nil {
+		if err := internal.UpdateDB(ctx, cacheDir, dsn, vulnerabilitiesTableName, adivisoryTableName); err != nil {
 			return err
 		}
 
@@ -92,6 +94,8 @@ func init() {
 	rootCmd.Flags().BoolVarP(&skipInit, "skip-init-db", "", false, "skip initializing target datasource")
 	rootCmd.Flags().BoolVarP(&skipUpdate, "skip-update", "", false, "skip updating Trivy DB")
 	rootCmd.Flags().StringVarP(&cacheDir, "cache-dir", "", "", "cache dir")
+	rootCmd.Flags().StringVarP(&vulnerabilitiesTableName, "vulnerabilities-table-name", "", "vulnerabilities", "Vulnerabilities Table Name")
+	rootCmd.Flags().StringVarP(&adivisoryTableName, "advisory-table-name", "", "vulnerability_advisories", "Vulnerability Advisories Table Name")
 }
 
 func cacheDirPath() string {

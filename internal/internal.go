@@ -52,7 +52,7 @@ func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 	return nil
 }
 
-func InitDB(ctx context.Context, dsn string) error {
+func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName string) error {
 	var (
 		driver drivers.Driver
 		err    error
@@ -69,12 +69,12 @@ func InitDB(ctx context.Context, dsn string) error {
 	defer db.Close()
 	switch u.Driver {
 	case "mysql":
-		driver, err = mysql.New(db)
+		driver, err = mysql.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
 	case "postgres":
-		driver, err = postgres.New(db)
+		driver, err = postgres.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
@@ -89,7 +89,7 @@ func InitDB(ctx context.Context, dsn string) error {
 	return nil
 }
 
-func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
+func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, advisoryTableName string) error {
 	_, _ = fmt.Fprintf(os.Stderr, "%s", "Updating vulnerability information tables ... \n")
 	var (
 		driver drivers.Driver
@@ -107,12 +107,12 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 	defer db.Close()
 	switch u.Driver {
 	case "mysql":
-		driver, err = mysql.New(db)
+		driver, err = mysql.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
 	case "postgres":
-		driver, err = postgres.New(db)
+		driver, err = postgres.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
@@ -127,7 +127,7 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 	defer trivydb.Close()
 
 	if err := trivydb.View(func(tx *bolt.Tx) error {
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Updating table 'vulnerabilities' ... ")
+		_, _ = fmt.Fprintf(os.Stderr, ">> Updating table '%s' ...\n", vulnerabilityTableName)
 		if err := driver.TruncateVulns(ctx); err != nil {
 			return err
 		}
@@ -160,7 +160,7 @@ func UpdateDB(ctx context.Context, cacheDir, dsn string) error {
 			}
 		}
 
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", ">> Update table 'vulnerability_advisories' ... ")
+		_, _ = fmt.Fprintf(os.Stderr, ">> Updating table '%s' ...\n", advisoryTableName)
 		if err := driver.TruncateVulnAdvisories(ctx); err != nil {
 			return err
 		}
