@@ -21,6 +21,7 @@ builds:
     - darwin
   goarch:
     - amd64
+    - arm64
   ldflags:
     - -s -w -X github.com/k1LoW/trivy-db-to.version={{.Version}} -X github.com/k1LoW/trivy-db-to.commit={{.FullCommit}} -X github.com/k1LoW/trivy-db-to.date={{.Date}} -X github.com/k1LoW/trivy-db-to/version.Version={{.Version}}
 archives:
