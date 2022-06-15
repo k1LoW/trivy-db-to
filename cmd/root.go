@@ -33,13 +33,14 @@ import (
 )
 
 var (
-	quiet      bool
-	light      bool
-	skipInit   bool
-	skipUpdate bool
-	cacheDir   string
-	vulnerabilitiesTableName   string
-	adivisoryTableName   string
+	quiet                    bool
+	light                    bool
+	skipInit                 bool
+	skipUpdate               bool
+	cacheDir                 string
+	vulnerabilitiesTableName string
+	adivisoryTableName       string
+	sources                  []string
 )
 
 var rootCmd = &cobra.Command{
@@ -65,7 +66,7 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		if err := internal.UpdateDB(ctx, cacheDir, dsn, vulnerabilitiesTableName, adivisoryTableName); err != nil {
+		if err := internal.UpdateDB(ctx, cacheDir, dsn, vulnerabilitiesTableName, adivisoryTableName, sources); err != nil {
 			return err
 		}
 
@@ -96,6 +97,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&cacheDir, "cache-dir", "", "", "cache dir")
 	rootCmd.Flags().StringVarP(&vulnerabilitiesTableName, "vulnerabilities-table-name", "", "vulnerabilities", "Vulnerabilities Table Name")
 	rootCmd.Flags().StringVarP(&adivisoryTableName, "advisory-table-name", "", "vulnerability_advisories", "Vulnerability Advisories Table Name")
+	rootCmd.Flags().StringArrayVarP(&sources, "sources", "", nil, "Vulnerability Sources")
 }
 
 func cacheDirPath() string {
