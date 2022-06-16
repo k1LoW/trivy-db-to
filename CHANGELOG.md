@@ -1,3 +1,8 @@
+## [v1.2.0](https://github.com/k1LoW/trivy-db-to/compare/v1.1.1...v1.2.0) (2022-06-16)
+
+* add --sources options [#7](https://github.com/k1LoW/trivy-db-to/pull/7) ([hiboma](https://github.com/hiboma))
+* Use octocov [#6](https://github.com/k1LoW/trivy-db-to/pull/6) ([k1LoW](https://github.com/k1LoW))
+
 ## [v1.1.1](https://github.com/k1LoW/trivy-db-to/compare/v1.1.0...v1.1.1) (2022-02-09)
 
 * Support darwin arm64 [#5](https://github.com/k1LoW/trivy-db-to/pull/5) ([k1LoW](https://github.com/k1LoW))
