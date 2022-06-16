@@ -89,7 +89,7 @@ func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName 
 	return nil
 }
 
-func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, advisoryTableName string) error {
+func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, advisoryTableName string, targetSources []string) error {
 	_, _ = fmt.Fprintf(os.Stderr, "%s", "Updating vulnerability information tables ... \n")
 	var (
 		driver drivers.Driver
@@ -169,6 +169,20 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 			if s == "trivy" || s == "vulnerability" {
 				return nil
 			}
+
+			if len(targetSources) > 0 {
+				found := false
+				for _, ts := range targetSources {
+					if strings.Contains(s, ts) {
+						found = true
+						break
+					}
+				}
+				if !found {
+					return nil
+				}
+			}
+
 			_, _ = fmt.Fprintf(os.Stderr, ">>> %s\n", s)
 			c := b.Cursor()
 			vulnds := [][][]byte{}
