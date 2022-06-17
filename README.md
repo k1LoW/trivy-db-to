@@ -50,11 +50,10 @@ done
 
 **deb:**
 
-Use [dpkg-i-from-url](https://github.com/k1LoW/dpkg-i-from-url)
-
 ``` console
 $ export TRIVY_DB_TO_VERSION=X.X.X
-$ curl -L https://git.io/dpkg-i-from-url | sh -s -- https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY_DB_TO_VERSION/trivy-db-to_$TRIVY_DB_TO_VERSION-1_amd64.deb
+$ curl -o trivy-db-to.deb -L https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY_DB_TO_VERSION/trivy-db-to_$TRIVY_DB_TO_VERSION-1_amd64.deb
+$ dpkg -i trivy-db-to.deb
 ```
 
 **RPM:**
@@ -66,11 +65,10 @@ $ yum install https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY_DB_
 
 **apk:**
 
-Use [apk-add-from-url](https://github.com/k1LoW/apk-add-from-url)
-
 ``` console
 $ export TRIVY_DB_TO_VERSION=X.X.X
-$ curl -L https://git.io/apk-add-from-url | sh -s -- https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY_DB_TO_VERSION/trivy-db-to_$TRIVY_DB_TO_VERSION-1_amd64.apk
+$ curl -o trivy-db-to.apk -L https://github.com/k1LoW/trivy-db-to/releases/download/v$TRIVY_DB_TO_VERSION/trivy-db-to_$TRIVY_DB_TO_VERSION-1_amd64.apk
+$ apk add trivy-db-to.apk
 ```
 
 **homebrew tap:**
