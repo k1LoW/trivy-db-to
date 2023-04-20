@@ -38,7 +38,7 @@ func (m *Mysql) CreateIfNotExistTables(ctx context.Context) error {
 
 	stmt = fmt.Sprintf(`CREATE TABLE %s (
 id int PRIMARY KEY AUTO_INCREMENT,
-vulnerability_id varchar (25) NOT NULL,
+vulnerability_id varchar (128) NOT NULL,
 value json NOT NULL,
 created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) COMMENT = 'vulnerabilities obtained via Trivy DB' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`, m.vulnerabilitiesTableName)
@@ -54,7 +54,7 @@ created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 
 	stmt = fmt.Sprintf(`CREATE TABLE %s (
 id int PRIMARY KEY AUTO_INCREMENT,
-vulnerability_id varchar (25) NOT NULL,
+vulnerability_id varchar (128) NOT NULL,
 platform varchar (50) NOT NULL,
 segment varchar (50) NOT NULL,
 package varchar (100) NOT NULL,

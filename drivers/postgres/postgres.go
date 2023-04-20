@@ -38,7 +38,7 @@ func (m *Postgres) CreateIfNotExistTables(ctx context.Context) error {
 
 	stmt = fmt.Sprintf(`CREATE TABLE %s (
 id serial PRIMARY KEY,
-vulnerability_id varchar (25) NOT NULL,
+vulnerability_id varchar (128) NOT NULL,
 value json NOT NULL,
 created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )`, m.vulnerabilitiesTableName)
@@ -58,7 +58,7 @@ created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 
 	stmt = fmt.Sprintf(`CREATE TABLE %s (
 id serial PRIMARY KEY,
-vulnerability_id varchar (25) NOT NULL,
+vulnerability_id varchar (128) NOT NULL,
 platform varchar (50) NOT NULL,
 segment varchar (50) NOT NULL,
 package varchar (100) NOT NULL,

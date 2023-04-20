@@ -10,45 +10,44 @@ import (
 
 	db2 "github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/db"
-	"github.com/aquasecurity/trivy/pkg/github"
-	"github.com/aquasecurity/trivy/pkg/indicator"
+	"github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/k1LoW/trivy-db-to/drivers"
 	"github.com/k1LoW/trivy-db-to/drivers/mysql"
 	"github.com/k1LoW/trivy-db-to/drivers/postgres"
-	"github.com/k1LoW/trivy-db-to/version"
-	"github.com/spf13/afero"
+	"github.com/samber/lo"
 	"github.com/xo/dburl"
 	bolt "go.etcd.io/bbolt"
-	"k8s.io/utils/clock"
 )
 
-const chunkSize = 100
+const chunkSize = 10000
 
 func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate bool) error {
-	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating Trivy DB ... ")
-	config := db2.Config{}
-	client := github.NewClient()
-	progressBar := indicator.NewProgressBar(quiet)
-	realClock := clock.RealClock{}
-	fs := afero.NewOsFs()
-	metadata := db.NewMetadata(fs, cacheDir)
-	dbClient := db.NewClient(config, client, progressBar, realClock, metadata)
-	needsUpdate, err := dbClient.NeedsUpdate(version.Version, light, skipUpdate)
-	if err != nil {
+	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating Trivy DB ... \n")
+	appVersion := "99.9.9"
+	dbRepository := "ghcr.io/aquasecurity/trivy-db"
+	dbPath := db2.Path(cacheDir)
+	dbDir := filepath.Dir(dbPath)
+	if err := os.MkdirAll(dbDir, 0700); err != nil {
 		return err
 	}
-	if needsUpdate {
-		_, _ = fmt.Fprint(os.Stderr, "\n")
-		if err := dbClient.Download(ctx, cacheDir, light); err != nil {
-			return err
-		}
-		if err := dbClient.UpdateMetadata(cacheDir); err != nil {
-			return err
-		}
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
-	} else {
-		_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done (already exist)")
+
+	client := db.NewClient(cacheDir, quiet, db.WithDBRepository(dbRepository))
+	needsUpdate, err := client.NeedsUpdate(appVersion, skipUpdate)
+	if err != nil {
+		return fmt.Errorf("database error: %w", err)
 	}
+
+	if needsUpdate {
+		_, _ = fmt.Fprintln(os.Stderr, "Need to update DB")
+		_, _ = fmt.Fprintf(os.Stderr, "DB Repository: %s\n", dbRepository)
+		_, _ = fmt.Fprintln(os.Stderr, "Downloading DB...")
+		if err = client.Download(ctx, cacheDir, types.RemoteOptions{}); err != nil {
+			return fmt.Errorf("failed to download vulnerability DB: %w", err)
+		}
+	}
+
+	_, _ = fmt.Fprintln(os.Stderr, "done")
+
 	return nil
 }
 
@@ -85,7 +84,7 @@ func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName 
 	if err := driver.CreateIfNotExistTables(ctx); err != nil {
 		return err
 	}
-	_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
+	_, _ = fmt.Fprintln(os.Stderr, "done")
 	return nil
 }
 
@@ -188,6 +187,9 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 			vulnds := [][][]byte{}
 			for pkg, _ := c.First(); pkg != nil; pkg, _ = c.Next() {
 				cb := b.Bucket(pkg)
+				if cb == nil {
+					continue
+				}
 				cbc := cb.Cursor()
 				for vID, v := cbc.First(); vID != nil; vID, v = cbc.Next() {
 					platform := []byte(s)
@@ -199,11 +201,11 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 					}
 					vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
 				}
-				if len(vulnds) > chunkSize {
-					if err := driver.InsertVulnAdvisory(ctx, vulnds); err != nil {
-						return err
-					}
-					vulnds = [][][]byte{}
+			}
+			chunked := lo.Chunk(vulnds, chunkSize)
+			for _, c := range chunked {
+				if err := driver.InsertVulnAdvisory(ctx, c); err != nil {
+					return err
 				}
 			}
 			return nil
