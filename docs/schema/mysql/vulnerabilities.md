@@ -9,25 +9,25 @@ vulnerabilities obtained via Trivy DB
 
 ```sql
 CREATE TABLE `vulnerabilities` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `vulnerability_id` varchar(25) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `vulnerability_id` varchar(128) NOT NULL,
   `value` json NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `v_vulnerability_id_idx` (`vulnerability_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=[Redacted by tbls] DEFAULT CHARSET=utf8mb4 COMMENT='vulnerabilities obtained via Trivy DB'
+) ENGINE=InnoDB AUTO_INCREMENT=[Redacted by tbls] DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='vulnerabilities obtained via Trivy DB'
 ```
 
 </details>
 
 ## Columns
 
-| Name | Type | Default | Nullable | Children | Parents | Comment |
-| ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | int(11) |  | false |  |  |  |
-| vulnerability_id | varchar(25) |  | false |  |  | Vulnerability ID |
-| value | json |  | false |  |  | Vulnerability data |
-| created_at | datetime | CURRENT_TIMESTAMP | false |  |  |  |
+| Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
+| ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
+| id | int |  | false | auto_increment |  |  |  |
+| vulnerability_id | varchar(128) |  | false |  |  |  | Vulnerability ID |
+| value | json |  | false |  |  |  | Vulnerability data |
+| created_at | datetime | CURRENT_TIMESTAMP | false | DEFAULT_GENERATED |  |  |  |
 
 ## Constraints
 
