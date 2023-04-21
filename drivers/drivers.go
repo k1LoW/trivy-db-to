@@ -3,7 +3,7 @@ package drivers
 import "context"
 
 type Driver interface {
-	CreateIfNotExistTables(ctx context.Context) error
+	Migrate(ctx context.Context) error
 	InsertVuln(ctx context.Context, vulns [][][]byte) error
 	InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) error
 	TruncateVulns(ctx context.Context) error

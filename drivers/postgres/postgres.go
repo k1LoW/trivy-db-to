@@ -23,7 +23,7 @@ func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Postg
 	}, nil
 }
 
-func (m *Postgres) CreateIfNotExistTables(ctx context.Context) error {
+func (m *Postgres) Migrate(ctx context.Context) error {
 	var count int
 	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = current_schema() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName) // #nosec
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
@@ -31,6 +31,15 @@ func (m *Postgres) CreateIfNotExistTables(ctx context.Context) error {
 	}
 	switch count {
 	case 2:
+		// migrate from v1
+		stmt = fmt.Sprintf(`ALTER TABLE %s ALTER COLUMN vulnerability_id TYPE varchar (128) USING vulnerability_id::varchar;`, m.vulnerabilitiesTableName)
+		if _, err := m.db.Exec(stmt); err != nil {
+			return err
+		}
+		stmt = fmt.Sprintf(`ALTER TABLE %s ALTER COLUMN vulnerability_id TYPE varchar (128) USING vulnerability_id::varchar;`, m.adivosryTableName)
+		if _, err := m.db.Exec(stmt); err != nil {
+			return err
+		}
 		return nil
 	case 1:
 		return errors.New("invalid table schema")
