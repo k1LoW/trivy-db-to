@@ -1,3 +1,6 @@
+## [v1.3.0](https://github.com/k1LoW/trivy-db-to/compare/v1.2.1...v1.3.0) - 2023-04-21
+- Fix Dockerfile by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/15
+
 ## [v1.2.1](https://github.com/k1LoW/trivy-db-to/compare/v1.2.0...v1.2.1) - 2023-04-21
 - Git.io deprecation by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/8
 - Bump golang.org/x/text from 0.3.5 to 0.3.8 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/9
