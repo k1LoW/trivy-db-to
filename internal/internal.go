@@ -81,7 +81,7 @@ func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName 
 		return fmt.Errorf("unsupported driver '%s'", u.Driver)
 	}
 
-	if err := driver.CreateIfNotExistTables(ctx); err != nil {
+	if err := driver.Migrate(ctx); err != nil {
 		return err
 	}
 	_, _ = fmt.Fprintln(os.Stderr, "done")
