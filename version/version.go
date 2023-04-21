@@ -4,4 +4,4 @@ package version
 const Name string = "trivy-db-to"
 
 // Version for this
-var Version = "1.2.0"
+var Version = "1.3.0"
