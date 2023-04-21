@@ -2,14 +2,14 @@
 
 ## Description
 
-vulnerabilities obtained via Trivy DB
+vulnerability obtained via Trivy DB
 
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
 | id | integer | nextval('vulnerabilities_id_seq'::regclass) | false |  |  |  |
-| vulnerability_id | varchar(25) |  | false |  |  | Vulnerability ID |
+| vulnerability_id | varchar(128) |  | false |  |  | Vulnerability ID |
 | value | json |  | false |  |  | Vulnerability data |
 | created_at | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
 

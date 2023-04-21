@@ -4,7 +4,7 @@
 
 | Name | Columns | Comment | Type |
 | ---- | ------- | ------- | ---- |
-| [public.vulnerabilities](public.vulnerabilities.md) | 4 | vulnerabilities obtained via Trivy DB | BASE TABLE |
+| [public.vulnerabilities](public.vulnerabilities.md) | 4 | vulnerability obtained via Trivy DB | BASE TABLE |
 | [public.vulnerability_advisories](public.vulnerability_advisories.md) | 7 | vulnerability advisories obtained via Trivy DB | BASE TABLE |
 
 ## Relations

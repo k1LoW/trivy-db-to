@@ -47,10 +47,8 @@ build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
 
 depsdev:
-	go install github.com/Songmu/ghch/cmd/ghch@v0.10.2
-	go install github.com/xo/usql@v0.9.5
-	go install github.com/Songmu/gocredits/cmd/gocredits@v0.2.0
-	go install github.com/securego/gosec/cmd/gosec@master
+	go install github.com/Songmu/ghch/cmd/ghch@latest
+	go install github.com/Songmu/gocredits/cmd/gocredits@latest
 
 prerelease:
 	git pull origin --tag
