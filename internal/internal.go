@@ -160,6 +160,15 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 			}
 		}
 
+		sourceRe := []*regexp.Regexp{}
+		for _, s := range targetSources {
+			re, err := regexp.Compile(s)
+			if err != nil {
+				return err
+			}
+			sourceRe = append(sourceRe, re)
+		}
+
 		_, _ = fmt.Fprintf(os.Stderr, ">> Updating table '%s' ...\n", advisoryTableName)
 		if err := driver.TruncateVulnAdvisories(ctx); err != nil {
 			return err
@@ -170,10 +179,10 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 				return nil
 			}
 
-			if len(targetSources) > 0 {
+			if len(sourceRe) > 0 {
 				found := false
-				for _, ts := range targetSources {
-					if strings.Contains(s, ts) {
+				for _, re := range sourceRe {
+					if re.MatchString(s) {
 						found = true
 						break
 					}

@@ -97,7 +97,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&cacheDir, "cache-dir", "", "", "cache dir")
 	rootCmd.Flags().StringVarP(&vulnerabilitiesTableName, "vulnerabilities-table-name", "", "vulnerabilities", "Vulnerabilities Table Name")
 	rootCmd.Flags().StringVarP(&adivisoryTableName, "advisory-table-name", "", "vulnerability_advisories", "Vulnerability Advisories Table Name")
-	rootCmd.Flags().StringArrayVarP(&sources, "source", "", nil, "Vulnerability Source")
+	rootCmd.Flags().StringArrayVarP(&sources, "source", "", nil, "Vulnerability Source (supporting regexp)")
 }
 
 func cacheDirPath() string {
