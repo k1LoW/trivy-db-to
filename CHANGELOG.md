@@ -1,3 +1,6 @@
+## [v2.0.2](https://github.com/k1LoW/trivy-db-to/compare/v2.0.1...v2.0.2) - 2023-06-14
+- Fix parsing platform and segment by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/21
+
 ## [v2.0.1](https://github.com/k1LoW/trivy-db-to/compare/v2.0.0...v2.0.1) - 2023-05-12
 - Bump github.com/docker/distribution from 2.8.1+incompatible to 2.8.2+incompatible by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/19
 
