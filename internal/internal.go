@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 
@@ -192,13 +193,7 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 				}
 				cbc := cb.Cursor()
 				for vID, v := cbc.First(); vID != nil; vID, v = cbc.Next() {
-					platform := []byte(s)
-					segment := []byte("")
-					splited := strings.Split(s, " ")
-					if len(splited) > 1 {
-						platform = []byte(strings.Join(splited[0:len(splited)-1], " "))
-						segment = []byte(splited[len(splited)-1])
-					}
+					platform, segment := parsePlatformAndSegment(s)
 					vulnds = append(vulnds, [][]byte{vID, platform, segment, pkg, v})
 				}
 			}
@@ -219,4 +214,21 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 	}
 	_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
 	return nil
+}
+
+var numRe = regexp.MustCompile(`\d+`)
+
+func parsePlatformAndSegment(s string) ([]byte, []byte) {
+	const alpineEdgeSegment = "edge"
+	platform := []byte(s)
+	segment := []byte("")
+	splited := strings.Split(s, " ")
+	if len(splited) > 1 {
+		last := splited[len(splited)-1]
+		if numRe.MatchString(last) || last == alpineEdgeSegment {
+			platform = []byte(strings.Join(splited[0:len(splited)-1], " "))
+			segment = []byte(last)
+		}
+	}
+	return platform, segment
 }
