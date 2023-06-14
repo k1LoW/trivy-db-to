@@ -1,3 +1,6 @@
+## [v2.0.3](https://github.com/k1LoW/trivy-db-to/compare/v2.0.2...v2.0.3) - 2023-06-14
+- Support regexp for `--source` option by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/23
+
 ## [v2.0.2](https://github.com/k1LoW/trivy-db-to/compare/v2.0.1...v2.0.2) - 2023-06-14
 - Fix parsing platform and segment by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/21
 
