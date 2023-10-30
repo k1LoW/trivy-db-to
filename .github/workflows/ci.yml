@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
 
@@ -27,6 +27,9 @@ jobs:
 
       - name: Run lint
         uses: reviewdog/action-golangci-lint@v2
+        with:
+          fail_on_error: true
+          golangci_lint_flags: --timeout=5m
 
       - name: Start databases
         run: |
