@@ -1,3 +1,7 @@
+## [v2.0.5](https://github.com/k1LoW/trivy-db-to/compare/v2.0.4...v2.0.5) - 2023-10-30
+- Bump github.com/docker/docker from 23.0.3+incompatible to 24.0.7+incompatible by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/28
+- Bump google.golang.org/grpc from 1.54.0 to 1.56.3 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/27
+
 ## [v2.0.4](https://github.com/k1LoW/trivy-db-to/compare/v2.0.3...v2.0.4) - 2023-10-12
 - Bump golang.org/x/net from 0.8.0 to 0.17.0 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/25
 
