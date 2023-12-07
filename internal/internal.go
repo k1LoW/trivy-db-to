@@ -15,12 +15,13 @@ import (
 	"github.com/k1LoW/trivy-db-to/drivers"
 	"github.com/k1LoW/trivy-db-to/drivers/mysql"
 	"github.com/k1LoW/trivy-db-to/drivers/postgres"
+	"github.com/k1LoW/trivy-db-to/drivers/sqlite"
 	"github.com/samber/lo"
 	"github.com/xo/dburl"
 	bolt "go.etcd.io/bbolt"
 )
 
-const chunkSize = 10000
+const chunkSize = 5000
 
 func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate bool) error {
 	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating Trivy DB ... \n")
@@ -78,6 +79,11 @@ func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName 
 		if err != nil {
 			return err
 		}
+	case "sqlite3":
+		driver, err = sqlite.New(db, vulnerabilityTableName, advisoryTableName)
+		if err != nil {
+			return err
+		}
 	default:
 		return fmt.Errorf("unsupported driver '%s'", u.Driver)
 	}
@@ -113,6 +119,11 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 		}
 	case "postgres":
 		driver, err = postgres.New(db, vulnerabilityTableName, advisoryTableName)
+		if err != nil {
+			return err
+		}
+	case "sqlite3":
+		driver, err = sqlite.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
