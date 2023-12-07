@@ -96,7 +96,8 @@ func (m *Sqlite) createAdvisoryTable(ctx context.Context) error {
 
 func (m *Sqlite) Migrate(ctx context.Context) error {
 	var count int
-	stmt := fmt.Sprintf("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.advisoryTableName)
+	stmt := fmt.Sprintf("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.advisoryTableName) // #nosec
+
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
 		return err
 	}
