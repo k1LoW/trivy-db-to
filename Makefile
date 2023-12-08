@@ -22,9 +22,6 @@ ci: depsdev test integration
 test:
 	go test ./... -coverprofile=coverage.out -covermode=count
 
-sec:
-	gosec ./...
-
 lint:
 	golangci-lint run ./...
 

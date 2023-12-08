@@ -24,8 +24,6 @@ import (
 
 const chunkSize = 5000
 
-var dsnRep = strings.NewReplacer("sqlite://", "moderncsqlite://", "sqlite3://", "moderncsqlite://", "sq://", "moderncsqlite://")
-
 func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate bool) error {
 	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating Trivy DB ... \n")
 	appVersion := "99.9.9"
@@ -102,6 +100,9 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 	)
 
 	db, d, err := dbOpen(dsn)
+	if err != nil {
+		return err
+	}
 	defer db.Close()
 	switch d {
 	case "mysql":

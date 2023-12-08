@@ -96,7 +96,7 @@ func (m *Sqlite) createAdvisoryTable(ctx context.Context) error {
 
 func (m *Sqlite) Migrate(ctx context.Context) error {
 	var count int
-	stmt := fmt.Sprintf("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.advisoryTableName) // #nosec
+	stmt := fmt.Sprintf("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.advisoryTableName) //nolint:gosec
 
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
 		return err
@@ -146,7 +146,7 @@ func (m *Sqlite) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 	for i := 0; i < len(vulns); i++ {
 		iv = append(iv, fmt.Sprintf("($%d, $%d)", i*2+1, i*2+2))
 	}
-	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,value) VALUES %s", m.vulnerabilitiesTableName, strings.Join(iv, ",")) // #nosec
+	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,value) VALUES %s", m.vulnerabilitiesTableName, strings.Join(iv, ",")) //nolint:gosec
 
 	ins, err := m.db.Prepare(query)
 	if err != nil {
@@ -169,7 +169,7 @@ func (m *Sqlite) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) erro
 		iv = append(iv, fmt.Sprintf("($%d, $%d, $%d, $%d, $%d)", i*5+1, i*5+2, i*5+3, i*5+4, i*5+5))
 	}
 
-	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,platform,segment,package,value) VALUES %s", m.advisoryTableName, strings.Join(iv, ",")) // #nosec
+	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,platform,segment,package,value) VALUES %s", m.advisoryTableName, strings.Join(iv, ",")) //nolint:gosec
 	ins, err := m.db.Prepare(query)
 	if err != nil {
 		return err
