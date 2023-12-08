@@ -25,7 +25,7 @@ func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Postg
 
 func (m *Postgres) Migrate(ctx context.Context) error {
 	var count int
-	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = current_schema() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName) // #nosec
+	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = current_schema() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName) //nolint:gosec
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
 		return err
 	}
@@ -116,7 +116,7 @@ func (m *Postgres) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 	for i := 0; i < len(vulns); i++ {
 		iv = append(iv, fmt.Sprintf("($%d, $%d)", i*2+1, i*2+2))
 	}
-	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,value) VALUES %s", m.vulnerabilitiesTableName, strings.Join(iv, ",")) // #nosec
+	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,value) VALUES %s", m.vulnerabilitiesTableName, strings.Join(iv, ",")) //nolint:gosec
 
 	ins, err := m.db.Prepare(query)
 	if err != nil {
@@ -138,7 +138,7 @@ func (m *Postgres) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) er
 	for i := 0; i < len(vulnds); i++ {
 		iv = append(iv, fmt.Sprintf("($%d, $%d, $%d, $%d, $%d)", i*5+1, i*5+2, i*5+3, i*5+4, i*5+5))
 	}
-	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,platform,segment,package,value) VALUES %s", m.adivosryTableName, strings.Join(iv, ",")) // #nosec
+	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,platform,segment,package,value) VALUES %s", m.adivosryTableName, strings.Join(iv, ",")) //nolint:gosec
 	ins, err := m.db.Prepare(query)
 	if err != nil {
 		return err

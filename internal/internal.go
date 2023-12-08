@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -59,16 +60,12 @@ func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName 
 		err    error
 	)
 	_, _ = fmt.Fprintf(os.Stderr, "%s", "Initializing vulnerability information tables ... ")
-	u, err := dburl.Parse(dsn)
-	if err != nil {
-		return err
-	}
-	db, err := dburl.Open(dsn)
+	db, d, err := dbOpen(dsn)
 	if err != nil {
 		return err
 	}
 	defer db.Close()
-	switch u.Driver {
+	switch d {
 	case "mysql":
 		driver, err = mysql.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
@@ -79,13 +76,13 @@ func InitDB(ctx context.Context, dsn, vulnerabilityTableName, advisoryTableName 
 		if err != nil {
 			return err
 		}
-	case "sqlite3":
+	case "sqlite":
 		driver, err = sqlite.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
 	default:
-		return fmt.Errorf("unsupported driver '%s'", u.Driver)
+		return fmt.Errorf("unsupported driver '%s'", d)
 	}
 
 	if err := driver.Migrate(ctx); err != nil {
@@ -102,16 +99,12 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 		err    error
 	)
 
-	u, err := dburl.Parse(dsn)
-	if err != nil {
-		return err
-	}
-	db, err := dburl.Open(dsn)
+	db, d, err := dbOpen(dsn)
 	if err != nil {
 		return err
 	}
 	defer db.Close()
-	switch u.Driver {
+	switch d {
 	case "mysql":
 		driver, err = mysql.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
@@ -122,13 +115,13 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 		if err != nil {
 			return err
 		}
-	case "sqlite3":
+	case "sqlite":
 		driver, err = sqlite.New(db, vulnerabilityTableName, advisoryTableName)
 		if err != nil {
 			return err
 		}
 	default:
-		return fmt.Errorf("unsupported driver '%s'", u.Driver)
+		return fmt.Errorf("unsupported driver '%s'", d)
 	}
 
 	trivydb, err := bolt.Open(filepath.Join(cacheDir, "db", "trivy.db"), 0600, &bolt.Options{Timeout: 1 * time.Second})
@@ -234,6 +227,21 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 	}
 	_, _ = fmt.Fprintf(os.Stderr, "%s\n", "done")
 	return nil
+}
+
+func dbOpen(dsn string) (*sql.DB, string, error) {
+	u, err := dburl.Parse(dsn)
+	if err != nil {
+		return nil, "", err
+	}
+	if u.Driver == "sqlite3" {
+		u.Driver = "sqlite"
+	}
+	db, err := sql.Open(u.Driver, u.DSN)
+	if err != nil {
+		return nil, "", err
+	}
+	return db, u.Driver, nil
 }
 
 var numRe = regexp.MustCompile(`\d+`)

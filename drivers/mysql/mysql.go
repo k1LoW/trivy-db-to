@@ -25,7 +25,7 @@ func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Mysql
 
 func (m *Mysql) Migrate(ctx context.Context) error {
 	var count int
-	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName) // #nosec
+	stmt := fmt.Sprintf("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name IN ('%s', '%s');", m.vulnerabilitiesTableName, m.adivosryTableName) //nolint:gosec
 	if err := m.db.QueryRowContext(ctx, stmt).Scan(&count); err != nil {
 		return err
 	}
@@ -104,7 +104,7 @@ created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 }
 
 func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
-	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,value) VALUES (?,?)%s", m.vulnerabilitiesTableName, strings.Repeat(", (?,?)", len(vulns)-1)) // #nosec
+	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,value) VALUES (?,?)%s", m.vulnerabilitiesTableName, strings.Repeat(", (?,?)", len(vulns)-1)) //nolint:gosec
 
 	ins, err := m.db.Prepare(query)
 	if err != nil {
@@ -122,7 +122,7 @@ func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 }
 
 func (m *Mysql) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) error {
-	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", m.adivosryTableName, strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1)) // #nosec
+	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,platform,segment,package,value) VALUES (?,?,?,?,?)%s", m.adivosryTableName, strings.Repeat(", (?,?,?,?,?)", len(vulnds)-1)) //nolint:gosec
 	ins, err := m.db.Prepare(query)
 	if err != nil {
 		return err
