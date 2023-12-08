@@ -1,3 +1,7 @@
+## [v2.1.0](https://github.com/k1LoW/trivy-db-to/compare/v2.0.5...v2.1.0) - 2023-12-08
+- sqlite3 support by @nozo-moto in https://github.com/k1LoW/trivy-db-to/pull/30
+- Use modernc.org/sqlite for CGO_ENABLED=0 builds. by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/32
+
 ## [v2.0.5](https://github.com/k1LoW/trivy-db-to/compare/v2.0.4...v2.0.5) - 2023-10-30
 - Bump github.com/docker/docker from 23.0.3+incompatible to 24.0.7+incompatible by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/28
 - Bump google.golang.org/grpc from 1.54.0 to 1.56.3 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/27
