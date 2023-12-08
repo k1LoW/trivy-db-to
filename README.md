@@ -45,6 +45,7 @@ done
 
 - MySQL ( [schema](docs/schema/mysql/README.md) )
 - PostgreSQL ( [schema](docs/schema/postgres/README.md) )
+- SQLite ( [schema](docs/schema/sqlite/README.md) )
 
 ## Install
 

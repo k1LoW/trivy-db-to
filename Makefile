@@ -11,9 +11,9 @@ export GO111MODULE=on
 
 BUILD_LDFLAGS = -X $(PKG).commit=$(COMMIT) -X $(PKG).date=$(DATE)
 
-TEST_MYSQL_DSN = mysql://root:mypass@127.0.0.1:33357/trivydb
-TEST_POSTGRES_DSN = pg://postgres:pgpass@127.0.0.1:35432/trivydb?sslmode=disable
-TEST_SQLITE_DSN = file:trivydb.sqlite3
+export TEST_MYSQL_DSN = mysql://root:mypass@127.0.0.1:33357/trivydb
+export TEST_POSTGRES_DSN = pg://postgres:pgpass@127.0.0.1:35432/trivydb?sslmode=disable
+export TEST_SQLITE_DSN = sqlite://./trivydb.sqlite3
 
 default: test
 
@@ -31,6 +31,7 @@ lint:
 doc:
 	tbls doc -f -c docs/tbls-mysql.yml
 	tbls doc -f -c docs/tbls-postgres.yml
+	tbls doc -f -c docs/tbls-sqlite.yml
 
 integration: build
 	./trivy-db-to $(TEST_MYSQL_DSN)

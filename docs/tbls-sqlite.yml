@@ -1,6 +1,6 @@
 name: "vulnerability information obtained via Trivy DB"
-dsn: ${TEST_POSTGRES_DSN}
-docPath: docs/schema/postgres
+dsn: ${TEST_SQLITE_DSN}
+docPath: docs/schema/sqlite
 comments:
 - table: vulnerabilities
   columnComments:
