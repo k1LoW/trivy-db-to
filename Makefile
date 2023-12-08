@@ -13,6 +13,7 @@ BUILD_LDFLAGS = -X $(PKG).commit=$(COMMIT) -X $(PKG).date=$(DATE)
 
 TEST_MYSQL_DSN = mysql://root:mypass@127.0.0.1:33357/trivydb
 TEST_POSTGRES_DSN = pg://postgres:pgpass@127.0.0.1:35432/trivydb?sslmode=disable
+TEST_SQLITE_DSN = file:trivydb.sqlite3
 
 default: test
 
@@ -42,6 +43,11 @@ integration: build
 	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '[0-9]\{5\}'
 	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
 	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '[0-9]\{6\}'
+	./trivy-db-to $(TEST_SQLITE_DSN)
+	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
+	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '[0-9]\{5\}'
+	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
+	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '[0-9]\{6\}'
 
 build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
@@ -49,6 +55,8 @@ build:
 depsdev:
 	go install github.com/Songmu/ghch/cmd/ghch@latest
 	go install github.com/Songmu/gocredits/cmd/gocredits@latest
+	go install github.com/xo/usql@latest
+	go install github.com/k1LoW/tbls@latest
 
 prerelease:
 	git pull origin --tag
