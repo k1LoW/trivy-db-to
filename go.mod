@@ -10,7 +10,7 @@ require (
 	github.com/samber/lo v1.37.0
 	github.com/shibukawa/configdir v0.0.0-20170330084843-e180dbdc8da0
 	github.com/spf13/cobra v1.7.0
-	github.com/xo/dburl v0.14.2
+	github.com/xo/dburl v0.16.0
 	go.etcd.io/bbolt v1.3.7
 	modernc.org/sqlite v1.27.0
 )
