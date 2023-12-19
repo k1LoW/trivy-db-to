@@ -1,3 +1,6 @@
+## [v2.1.1](https://github.com/k1LoW/trivy-db-to/compare/v2.1.0...v2.1.1) - 2023-12-19
+- Bump golang.org/x/crypto from 0.14.0 to 0.17.0 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/34
+
 ## [v2.1.0](https://github.com/k1LoW/trivy-db-to/compare/v2.0.5...v2.1.0) - 2023-12-08
 - sqlite3 support by @nozo-moto in https://github.com/k1LoW/trivy-db-to/pull/30
 - Use modernc.org/sqlite for CGO_ENABLED=0 builds. by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/32
