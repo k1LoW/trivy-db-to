@@ -1,3 +1,6 @@
+## [v2.1.2](https://github.com/k1LoW/trivy-db-to/compare/v2.1.1...v2.1.2) - 2024-03-13
+- Bump google.golang.org/protobuf from 1.30.0 to 1.33.0 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/36
+
 ## [v2.1.1](https://github.com/k1LoW/trivy-db-to/compare/v2.1.0...v2.1.1) - 2023-12-19
 - Bump golang.org/x/crypto from 0.14.0 to 0.17.0 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/34
 
