@@ -1,3 +1,6 @@
+## [v2.1.3](https://github.com/k1LoW/trivy-db-to/compare/v2.1.2...v2.1.3) - 2024-03-20
+- Bump github.com/docker/docker from 24.0.7+incompatible to 24.0.9+incompatible by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/38
+
 ## [v2.1.2](https://github.com/k1LoW/trivy-db-to/compare/v2.1.1...v2.1.2) - 2024-03-13
 - Bump google.golang.org/protobuf from 1.30.0 to 1.33.0 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/36
 
