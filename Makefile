@@ -17,7 +17,7 @@ export TEST_SQLITE_DSN = sqlite://./trivydb.sqlite3
 
 default: test
 
-ci: depsdev test integration
+ci: depsdev test
 
 test:
 	go test ./... -coverprofile=coverage.out -covermode=count
@@ -30,22 +30,28 @@ doc:
 	tbls doc -f -c docs/tbls-postgres.yml
 	tbls doc -f -c docs/tbls-sqlite.yml
 
-integration: build
+integration_mysql: build
 	./trivy-db-to $(TEST_MYSQL_DSN)
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '[0-9]\{5\}'
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
 	usql $(TEST_MYSQL_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '[0-9]\{6\}'
+
+integration_postgres: build
 	./trivy-db-to $(TEST_POSTGRES_DSN)
 	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
 	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '[0-9]\{5\}'
 	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
 	usql $(TEST_POSTGRES_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '[0-9]\{6\}'
+
+integration_sqlite: build
 	./trivy-db-to $(TEST_SQLITE_DSN)
 	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;"
 	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerabilities;" | grep '[0-9]\{5\}'
 	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;"
 	usql $(TEST_SQLITE_DSN) -c "SELECT COUNT(*) FROM vulnerability_advisories;" | grep '[0-9]\{6\}'
+
+integration: integration_mysql integration_postgres integration_sqlite
 
 build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
