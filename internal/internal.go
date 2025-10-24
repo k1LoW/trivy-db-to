@@ -13,6 +13,7 @@ import (
 	db2 "github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/k1LoW/trivy-db-to/drivers"
 	"github.com/k1LoW/trivy-db-to/drivers/mysql"
 	"github.com/k1LoW/trivy-db-to/drivers/postgres"
@@ -34,8 +35,14 @@ func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 		return err
 	}
 
-	client := db.NewClient(cacheDir, quiet, db.WithDBRepository(dbRepository))
-	needsUpdate, err := client.NeedsUpdate(appVersion, skipUpdate)
+	// Parse repository string to name.Reference
+	ref, err := name.ParseReference(dbRepository)
+	if err != nil {
+		return fmt.Errorf("failed to parse repository: %w", err)
+	}
+
+	client := db.NewClient(cacheDir, quiet, db.WithDBRepository([]name.Reference{ref}))
+	needsUpdate, err := client.NeedsUpdate(ctx, appVersion, skipUpdate)
 	if err != nil {
 		return fmt.Errorf("database error: %w", err)
 	}
@@ -44,7 +51,7 @@ func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate
 		_, _ = fmt.Fprintln(os.Stderr, "Need to update DB")
 		_, _ = fmt.Fprintf(os.Stderr, "DB Repository: %s\n", dbRepository)
 		_, _ = fmt.Fprintln(os.Stderr, "Downloading DB...")
-		if err = client.Download(ctx, cacheDir, types.RemoteOptions{}); err != nil {
+		if err = client.Download(ctx, cacheDir, types.RegistryOptions{}); err != nil {
 			return fmt.Errorf("failed to download vulnerability DB: %w", err)
 		}
 	}
@@ -124,7 +131,7 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 		return fmt.Errorf("unsupported driver '%s'", d)
 	}
 
-	trivydb, err := bolt.Open(filepath.Join(cacheDir, "db", "trivy.db"), 0600, &bolt.Options{Timeout: 1 * time.Second})
+	trivydb, err := bolt.Open(filepath.Join(cacheDir, "trivy.db"), 0600, &bolt.Options{Timeout: 1 * time.Second})
 	if err != nil {
 		return err
 	}

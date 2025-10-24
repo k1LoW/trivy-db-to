@@ -79,10 +79,7 @@ func Execute() {
 	rootCmd.SetErr(os.Stderr)
 
 	// disable trivy logger
-	if err := trivylog.InitLogger(false, true); err != nil {
-		rootCmd.PrintErrln(err)
-		os.Exit(1)
-	}
+	trivylog.InitLogger(false, true)
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
