@@ -16,6 +16,13 @@ type Sqlite struct {
 
 // New return *Sqlite.
 func New(db *sql.DB, vulnerabilitiesTableName, adviosryTableName string) (*Sqlite, error) {
+	if _, err := db.Exec(`
+        PRAGMA journal_mode = OFF;
+        PRAGMA synchronous = OFF;
+    `); err != nil {
+		return nil, err
+	}
+
 	return &Sqlite{
 		db:                       db,
 		vulnerabilitiesTableName: vulnerabilitiesTableName,
