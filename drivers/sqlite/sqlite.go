@@ -78,13 +78,21 @@ func (m *Sqlite) Migrate(ctx context.Context) error {
 }
 
 func (m *Sqlite) InsertVuln(ctx context.Context, vulns [][][]byte) error {
+	tx, err := m.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = tx.Rollback()
+	}()
+
 	iv := []string{}
 	for i := 0; i < len(vulns); i++ {
 		iv = append(iv, fmt.Sprintf("($%d, $%d)", i*2+1, i*2+2))
 	}
 	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,value) VALUES %s", m.vulnerabilitiesTableName, strings.Join(iv, ",")) //nolint:gosec
 
-	ins, err := m.db.Prepare(query)
+	ins, err := tx.Prepare(query)
 	if err != nil {
 		return err
 	}
@@ -93,20 +101,29 @@ func (m *Sqlite) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 	for _, vuln := range vulns {
 		values = append(values, vuln[0], vuln[1])
 	}
-	{
-		_, err := ins.Exec(values...)
+	if _, err := ins.Exec(values...); err != nil {
 		return err
 	}
+
+	return tx.Commit()
 }
 
 func (m *Sqlite) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) error {
+	tx, err := m.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = tx.Rollback()
+	}()
+
 	iv := []string{}
 	for i := 0; i < len(vulnds); i++ {
 		iv = append(iv, fmt.Sprintf("($%d, $%d, $%d, $%d, $%d)", i*5+1, i*5+2, i*5+3, i*5+4, i*5+5))
 	}
 
 	query := fmt.Sprintf("INSERT INTO %s(vulnerability_id,platform,segment,package,value) VALUES %s", m.advisoryTableName, strings.Join(iv, ",")) //nolint:gosec
-	ins, err := m.db.Prepare(query)
+	ins, err := tx.Prepare(query)
 	if err != nil {
 		return err
 	}
@@ -115,10 +132,11 @@ func (m *Sqlite) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) erro
 	for _, vuln := range vulnds {
 		values = append(values, vuln[0], vuln[1], vuln[2], vuln[3], vuln[4])
 	}
-	{
-		_, err := ins.Exec(values...)
+	if _, err := ins.Exec(values...); err != nil {
 		return err
 	}
+
+	return tx.Commit()
 }
 
 func (m *Sqlite) TruncateVulns(ctx context.Context) error {
