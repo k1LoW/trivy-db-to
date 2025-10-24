@@ -131,7 +131,7 @@ func UpdateDB(ctx context.Context, cacheDir, dsn, vulnerabilityTableName, adviso
 		return fmt.Errorf("unsupported driver '%s'", d)
 	}
 
-	trivydb, err := bolt.Open(filepath.Join(cacheDir, "db", "trivy.db"), 0600, &bolt.Options{Timeout: 1 * time.Second})
+	trivydb, err := bolt.Open(filepath.Join(cacheDir, "trivy.db"), 0600, &bolt.Options{Timeout: 1 * time.Second})
 	if err != nil {
 		return err
 	}
