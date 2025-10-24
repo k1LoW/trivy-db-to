@@ -82,7 +82,9 @@ func (m *Sqlite) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() {
+		_ = tx.Rollback()
+	}()
 
 	iv := []string{}
 	for i := 0; i < len(vulns); i++ {
@@ -111,7 +113,9 @@ func (m *Sqlite) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) erro
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() {
+		_ = tx.Rollback()
+	}()
 
 	iv := []string{}
 	for i := 0; i < len(vulnds); i++ {
