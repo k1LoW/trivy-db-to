@@ -14,7 +14,7 @@ type Postgres struct {
 	adivosryTableName        string
 }
 
-// New return *Postgres
+// New return *Postgres.
 func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Postgres, error) {
 	return &Postgres{
 		db:                       db,

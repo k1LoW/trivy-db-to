@@ -14,84 +14,13 @@ type Sqlite struct {
 	advisoryTableName        string
 }
 
-// New return *Sqlite
+// New return *Sqlite.
 func New(db *sql.DB, vulnerabilitiesTableName, adviosryTableName string) (*Sqlite, error) {
 	return &Sqlite{
 		db:                       db,
 		vulnerabilitiesTableName: vulnerabilitiesTableName,
 		advisoryTableName:        adviosryTableName,
 	}, nil
-}
-
-func (m *Sqlite) createTables(ctx context.Context) error {
-	if err := m.createVulnerabilitiesTable(ctx); err != nil {
-		return err
-	}
-
-	if err := m.createAdvisoryTable(ctx); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *Sqlite) createVulnerabilitiesTable(ctx context.Context) error {
-	stmt := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        vulnerability_id TEXT NOT NULL,
-        value TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );`, m.vulnerabilitiesTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS v_vulnerability_id_idx ON %s(vulnerability_id);", m.vulnerabilitiesTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *Sqlite) createAdvisoryTable(ctx context.Context) error {
-	stmt := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        vulnerability_id TEXT NOT NULL,
-        platform TEXT NOT NULL,
-        segment TEXT NOT NULL,
-        package TEXT NOT NULL,
-        value TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );`, m.advisoryTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-
-	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_vulnerability_advisories_idx ON %s(vulnerability_id, platform, segment, package);", m.advisoryTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-
-	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_vulnerability_id_idx ON %s(vulnerability_id);", m.advisoryTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-
-	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_platform_idx ON %s(platform);", m.advisoryTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-
-	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_source_idx ON %s(platform, segment);", m.advisoryTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-
-	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_source_package_idx ON %s(platform, segment, package);", m.advisoryTableName)
-	if _, err := m.db.Exec(stmt); err != nil {
-		return err
-	}
-	return nil
 }
 
 func (m *Sqlite) Migrate(ctx context.Context) error {
@@ -200,4 +129,75 @@ func (m *Sqlite) TruncateVulnAdvisories(ctx context.Context) error {
 		return err
 	}
 	return m.createAdvisoryTable(ctx)
+}
+
+func (m *Sqlite) createTables(ctx context.Context) error {
+	if err := m.createVulnerabilitiesTable(ctx); err != nil {
+		return err
+	}
+
+	if err := m.createAdvisoryTable(ctx); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Sqlite) createVulnerabilitiesTable(ctx context.Context) error {
+	stmt := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        vulnerability_id TEXT NOT NULL,
+        value TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`, m.vulnerabilitiesTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS v_vulnerability_id_idx ON %s(vulnerability_id);", m.vulnerabilitiesTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Sqlite) createAdvisoryTable(ctx context.Context) error {
+	stmt := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        vulnerability_id TEXT NOT NULL,
+        platform TEXT NOT NULL,
+        segment TEXT NOT NULL,
+        package TEXT NOT NULL,
+        value TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`, m.advisoryTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+
+	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_vulnerability_advisories_idx ON %s(vulnerability_id, platform, segment, package);", m.advisoryTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+
+	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_vulnerability_id_idx ON %s(vulnerability_id);", m.advisoryTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+
+	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_platform_idx ON %s(platform);", m.advisoryTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+
+	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_source_idx ON %s(platform, segment);", m.advisoryTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+
+	stmt = fmt.Sprintf("CREATE INDEX IF NOT EXISTS va_source_package_idx ON %s(platform, segment, package);", m.advisoryTableName)
+	if _, err := m.db.Exec(stmt); err != nil {
+		return err
+	}
+	return nil
 }
