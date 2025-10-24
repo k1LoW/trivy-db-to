@@ -1,7 +1,7 @@
 package version
 
-// Name for this
+// Name for this.
 const Name string = "trivy-db-to"
 
-// Version for this
+// Version for this.
 var Version = "2.1.2"

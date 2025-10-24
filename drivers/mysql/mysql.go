@@ -14,7 +14,7 @@ type Mysql struct {
 	adivosryTableName        string
 }
 
-// New return *Mysql
+// New return *Mysql.
 func New(db *sql.DB, vulnerabilitiesTableName, adivosryTableName string) (*Mysql, error) {
 	return &Mysql{
 		db:                       db,
