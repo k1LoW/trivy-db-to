@@ -1,3 +1,5 @@
+## [v2.2.1](https://github.com/k1LoW/trivy-db-to/compare/v2.2.0...v2.2.1) - 2025-10-31
+
 ## [v2.2.0](https://github.com/k1LoW/trivy-db-to/compare/v2.1.2...v2.2.0) - 2025-10-31
 - Bump github.com/docker/docker from 24.0.7+incompatible to 24.0.9+incompatible by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/38
 - Bump github.com/hashicorp/go-getter from 1.7.0 to 1.7.5 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/43
