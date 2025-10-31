@@ -1,3 +1,22 @@
+## [v2.2.0](https://github.com/k1LoW/trivy-db-to/compare/v2.1.2...v2.2.0) - 2025-10-31
+- Bump github.com/docker/docker from 24.0.7+incompatible to 24.0.9+incompatible by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/38
+- Bump github.com/hashicorp/go-getter from 1.7.0 to 1.7.5 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/43
+- Bump golang.org/x/net from 0.17.0 to 0.23.0 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/40
+- Bump github.com/docker/docker from 24.0.9+incompatible to 26.1.4+incompatible by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/44
+- Bump github.com/docker/docker from 26.1.4+incompatible to 26.1.5+incompatible by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/45
+- chore: setup tagpr labels by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/47
+- chore(deps): bump the dependencies group across 1 directory with 8 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/57
+- chore(deps): bump github.com/golang-jwt/jwt/v4 from 4.5.0 to 4.5.2 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/53
+- chore(deps): bump golang.org/x/crypto from 0.21.0 to 0.35.0 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/55
+- test: split integration tests by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/58
+- chore(deps): bump github.com/docker/docker from 26.1.5+incompatible to 28.0.0+incompatible by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/50
+- chore(deps): bump golang.org/x/oauth2 from 0.10.0 to 0.27.0 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/49
+- feat(sqlite): disable journal mode and synchronous mode for performance optimization by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/59
+- fix: bump up trivy version by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/60
+- refactor(sqlite): use transactions by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/61
+- chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/62
+- chore(deps): bump the dependencies group with 3 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/63
+
 ## [v2.1.2](https://github.com/k1LoW/trivy-db-to/compare/v2.1.1...v2.1.2) - 2024-03-13
 - Bump google.golang.org/protobuf from 1.30.0 to 1.33.0 by @dependabot in https://github.com/k1LoW/trivy-db-to/pull/36
 
