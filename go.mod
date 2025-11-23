@@ -13,7 +13,7 @@ require (
 	github.com/spf13/cobra v1.10.1
 	github.com/xo/dburl v0.23.8
 	go.etcd.io/bbolt v1.4.3
-	modernc.org/sqlite v1.39.1
+	modernc.org/sqlite v1.40.1
 )
 
 require (
