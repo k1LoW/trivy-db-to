@@ -1,3 +1,7 @@
+## [v2.2.3](https://github.com/k1LoW/trivy-db-to/compare/v2.2.2...v2.2.3) - 2025-11-24
+- chore(deps): bump the dependencies group across 1 directory with 3 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/69
+- chore(deps): bump modernc.org/sqlite from 1.39.1 to 1.40.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/65
+
 ## [v2.2.2](https://github.com/k1LoW/trivy-db-to/compare/v2.2.1...v2.2.2) - 2025-11-20
 - chore(deps): bump golang.org/x/crypto from 0.42.0 to 0.45.0 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/67
 
