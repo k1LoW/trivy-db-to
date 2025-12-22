@@ -7,6 +7,15 @@
 - chore(deps): bump the dependencies group with 3 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/75
 - chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/76
 
+## [v2.2.3](https://github.com/k1LoW/trivy-db-to/compare/v2.2.2...v2.2.3) - 2025-12-22
+- chore(deps): bump the dependencies group across 1 directory with 3 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/69
+- chore(deps): bump modernc.org/sqlite from 1.39.1 to 1.40.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/65
+- chore(deps): bump the dependencies group across 1 directory with 3 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/72
+- chore(deps): bump actions/checkout from 6.0.0 to 6.0.1 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/73
+- chore(deps): bump Songmu/tagpr from 1.9.0 to 1.10.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/74
+- chore(deps): bump the dependencies group with 3 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/75
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/76
+
 ## [v2.2.2](https://github.com/k1LoW/trivy-db-to/compare/v2.2.1...v2.2.2) - 2025-11-20
 - chore(deps): bump golang.org/x/crypto from 0.42.0 to 0.45.0 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/67
 
