@@ -57,7 +57,6 @@ build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
 
 depsdev:
-	go install github.com/Songmu/ghch/cmd/ghch@latest
 	go install github.com/Songmu/gocredits/cmd/gocredits@latest
 	go install github.com/xo/usql@latest
 	go install github.com/k1LoW/tbls@latest
