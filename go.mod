@@ -3,7 +3,7 @@ module github.com/k1LoW/trivy-db-to
 go 1.25
 
 require (
-	github.com/aquasecurity/trivy v0.68.1
+	github.com/aquasecurity/trivy v0.68.2
 	github.com/aquasecurity/trivy-db v0.0.0-20251006072932-d25115abd0d9
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/google/go-containerregistry v0.20.7
@@ -11,9 +11,9 @@ require (
 	github.com/samber/lo v1.52.0
 	github.com/shibukawa/configdir v0.0.0-20170330084843-e180dbdc8da0
 	github.com/spf13/cobra v1.10.2
-	github.com/xo/dburl v0.23.8
+	github.com/xo/dburl v0.24.2
 	go.etcd.io/bbolt v1.4.3
-	modernc.org/sqlite v1.40.1
+	modernc.org/sqlite v1.41.0
 )
 
 require (
