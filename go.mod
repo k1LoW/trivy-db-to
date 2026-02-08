@@ -1,9 +1,9 @@
 module github.com/k1LoW/trivy-db-to
 
-go 1.25.5
+go 1.25.6
 
 require (
-	github.com/aquasecurity/trivy v0.69.0
+	github.com/aquasecurity/trivy v0.69.1
 	github.com/aquasecurity/trivy-db v0.0.0-20251222105351-a833f47f8f0d
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/google/go-containerregistry v0.20.7
