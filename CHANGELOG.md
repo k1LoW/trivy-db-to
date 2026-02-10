@@ -1,3 +1,11 @@
+## [v2.2.4](https://github.com/k1LoW/trivy-db-to/compare/v2.2.3...v2.2.4) - 2026-02-09
+- chore(deps): bump Songmu/tagpr from 1.10.0 to 1.11.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/79
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/81
+- chore(deps): bump modernc.org/sqlite from 1.41.0 to 1.42.2 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/78
+- chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/84
+- chore(deps): bump github.com/aquasecurity/trivy from 0.69.0 to 0.69.1 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/86
+- chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/87
+
 ## [v2.2.3](https://github.com/k1LoW/trivy-db-to/compare/v2.2.2...v2.2.3) - 2025-12-22
 - chore(deps): bump the dependencies group across 1 directory with 3 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/69
 - chore(deps): bump modernc.org/sqlite from 1.39.1 to 1.40.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/65
