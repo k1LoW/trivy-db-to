@@ -1,3 +1,6 @@
+## [v2.2.5](https://github.com/k1LoW/trivy-db-to/compare/v2.2.4...v2.2.5) - 2026-02-19
+- chore(deps): bump filippo.io/edwards25519 from 1.1.0 to 1.1.1 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/90
+
 ## [v2.2.4](https://github.com/k1LoW/trivy-db-to/compare/v2.2.3...v2.2.4) - 2026-02-09
 - chore(deps): bump Songmu/tagpr from 1.10.0 to 1.11.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/79
 - chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/81
