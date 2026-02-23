@@ -1,3 +1,9 @@
+## [v2.2.6](https://github.com/k1LoW/trivy-db-to/compare/v2.2.5...v2.2.6) - 2026-02-23
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/88
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/89
+- chore(deps): bump goreleaser/goreleaser-action from 6.4.0 to 7.0.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/94
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/93
+
 ## [v2.2.5](https://github.com/k1LoW/trivy-db-to/compare/v2.2.4...v2.2.5) - 2026-02-19
 - chore(deps): bump filippo.io/edwards25519 from 1.1.0 to 1.1.1 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/90
 
