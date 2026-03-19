@@ -1,3 +1,13 @@
+## [v2.2.6](https://github.com/k1LoW/trivy-db-to/compare/v2.2.5...v2.2.6) - 2026-03-19
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/88
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/89
+- chore(deps): bump goreleaser/goreleaser-action from 6.4.0 to 7.0.0 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/94
+- chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/93
+- chore(deps): bump go.opentelemetry.io/otel/sdk from 1.38.0 to 1.40.0 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/95
+- chore(deps): bump the dependencies group across 1 directory with 5 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/102
+- chore(deps): bump google.golang.org/grpc from 1.78.0 to 1.79.3 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/101
+- chore(deps): bump the dependencies group across 1 directory with 7 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/100
+
 ## [v2.2.5](https://github.com/k1LoW/trivy-db-to/compare/v2.2.4...v2.2.5) - 2026-02-19
 - chore(deps): bump filippo.io/edwards25519 from 1.1.0 to 1.1.1 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/90
 
