@@ -58,7 +58,7 @@ build:
 
 depsdev:
 	go install github.com/Songmu/gocredits/cmd/gocredits@latest
-	go install github.com/xo/usql@latest
+	go install github.com/xo/usql@v0.19.12
 	go install github.com/k1LoW/tbls@latest
 
 prerelease:
