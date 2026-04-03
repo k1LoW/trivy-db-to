@@ -1,3 +1,6 @@
+## [v2.2.7](https://github.com/k1LoW/trivy-db-to/compare/v2.2.6...v2.2.7) - 2026-04-03
+- chore(deps): bump github.com/go-jose/go-jose/v4 from 4.1.3 to 4.1.4 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/105
+
 ## [v2.2.6](https://github.com/k1LoW/trivy-db-to/compare/v2.2.5...v2.2.6) - 2026-03-30
 - chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/88
 - chore(deps): bump the dependencies group with 2 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/89
