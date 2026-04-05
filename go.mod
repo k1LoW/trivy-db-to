@@ -7,13 +7,13 @@ require (
 	github.com/aquasecurity/trivy-db v0.0.0-20251222105351-a833f47f8f0d
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/google/go-containerregistry v0.21.3
-	github.com/lib/pq v1.12.0
+	github.com/lib/pq v1.12.3
 	github.com/samber/lo v1.53.0
 	github.com/shibukawa/configdir v0.0.0-20170330084843-e180dbdc8da0
 	github.com/spf13/cobra v1.10.2
 	github.com/xo/dburl v0.24.2
 	go.etcd.io/bbolt v1.4.3
-	modernc.org/sqlite v1.48.0
+	modernc.org/sqlite v1.48.1
 )
 
 require (
