@@ -1,3 +1,8 @@
+## [v2.2.9](https://github.com/k1LoW/trivy-db-to/compare/v2.2.8...v2.2.9) - 2026-06-22
+
+- chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/124
+- chore(deps): bump the dependencies group across 1 directory with 7 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/123
+
 ## [v2.2.8](https://github.com/k1LoW/trivy-db-to/compare/v2.2.7...v2.2.8) - 2026-05-04
 - chore(deps): bump the dependencies group across 1 directory with 5 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/115
 - chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/114
