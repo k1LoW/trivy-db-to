@@ -23,7 +23,7 @@ import (
 	bolt "go.etcd.io/bbolt"
 )
 
-const chunkSize = 1000
+const chunkSize = 5000
 
 func FetchTrivyDB(ctx context.Context, cacheDir string, light, quiet, skipUpdate bool) error {
 	_, _ = fmt.Fprintf(os.Stderr, "%s", "Fetching and updating Trivy DB ... \n")

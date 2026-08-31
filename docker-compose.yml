@@ -4,11 +4,7 @@ version: '3.7'
 services:
   mysql:
     image: mysql:8
-    restart: "no"
-    command:
-      - --innodb-buffer-pool-size=256M
-      - --innodb-redo-log-capacity=1G
-      - --performance-schema=OFF
+    restart: always
     ports:
       - "33357:3306"
     environment:
