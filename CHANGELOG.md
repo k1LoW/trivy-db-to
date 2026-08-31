@@ -1,3 +1,11 @@
+## [v2.2.10](https://github.com/k1LoW/trivy-db-to/compare/v2.2.9...v2.2.10) - 2026-08-31
+
+- chore(deps): bump google.golang.org/grpc from 1.81.0 to 1.82.1 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/131
+- chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/128
+- fix(mysql): close prepared statements after inserts by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/137
+- chore(deps): bump the dependencies group across 1 directory with 10 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/134
+- chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/136
+
 ## [v2.2.9](https://github.com/k1LoW/trivy-db-to/compare/v2.2.8...v2.2.9) - 2026-06-22
 
 - chore(deps): bump the dependencies group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/124
