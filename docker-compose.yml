@@ -5,6 +5,8 @@ services:
   mysql:
     image: mysql:8
     restart: always
+    command:
+      - --innodb-redo-log-capacity=2G
     ports:
       - "33357:3306"
     environment:
