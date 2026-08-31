@@ -110,6 +110,7 @@ func (m *Mysql) InsertVuln(ctx context.Context, vulns [][][]byte) error {
 	if err != nil {
 		return err
 	}
+	defer ins.Close()
 
 	values := []interface{}{}
 	for _, vuln := range vulns {
@@ -127,6 +128,7 @@ func (m *Mysql) InsertVulnAdvisory(ctx context.Context, vulnds [][][]byte) error
 	if err != nil {
 		return err
 	}
+	defer ins.Close()
 
 	values := []interface{}{}
 	for _, vuln := range vulnds {
