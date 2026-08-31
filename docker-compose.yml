@@ -6,7 +6,9 @@ services:
     image: mysql:8
     restart: "no"
     command:
-      - --innodb-redo-log-capacity=2G
+      - --innodb-buffer-pool-size=256M
+      - --innodb-redo-log-capacity=1G
+      - --performance-schema=OFF
     ports:
       - "33357:3306"
     environment:
