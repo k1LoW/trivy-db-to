@@ -5,15 +5,15 @@ go 1.26.3
 require (
 	github.com/aquasecurity/trivy v0.74.0
 	github.com/aquasecurity/trivy-db v0.0.0-20260813095258-0e0340a01b57
-	github.com/go-sql-driver/mysql v1.10.0
-	github.com/google/go-containerregistry v0.21.9
+	github.com/go-sql-driver/mysql v1.10.1
+	github.com/google/go-containerregistry v0.22.0
 	github.com/lib/pq v1.12.3
 	github.com/samber/lo v1.53.0
 	github.com/shibukawa/configdir v0.0.0-20170330084843-e180dbdc8da0
 	github.com/spf13/cobra v1.10.2
 	github.com/xo/dburl v0.24.2
 	go.etcd.io/bbolt v1.5.0
-	modernc.org/sqlite v1.56.0
+	modernc.org/sqlite v1.58.0
 )
 
 require (
@@ -96,7 +96,7 @@ require (
 	github.com/hashicorp/go-version v1.9.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/klauspost/compress v1.19.1 // indirect
+	github.com/klauspost/compress v1.19.2 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
@@ -148,7 +148,7 @@ require (
 	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/utils v0.0.0-20260319190234-28399d86e0b5 // indirect
-	modernc.org/libc v1.74.4 // indirect
+	modernc.org/libc v1.75.6 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
-	modernc.org/memory v1.11.0 // indirect
+	modernc.org/memory v1.12.1 // indirect
 )
