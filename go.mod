@@ -11,7 +11,7 @@ require (
 	github.com/samber/lo v1.53.0
 	github.com/shibukawa/configdir v0.0.0-20170330084843-e180dbdc8da0
 	github.com/spf13/cobra v1.10.2
-	github.com/xo/dburl v0.25.1
+	github.com/xo/dburl v0.26.1
 	go.etcd.io/bbolt v1.5.0
 	modernc.org/sqlite v1.59.0
 )
