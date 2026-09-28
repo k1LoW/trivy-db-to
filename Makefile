@@ -57,24 +57,27 @@ build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
 
 depsdev:
-	go install github.com/Songmu/gocredits/cmd/gocredits@latest
 	go install github.com/xo/usql@v0.19.12
 	go install github.com/k1LoW/tbls@latest
+
+credits:
+	go install github.com/Songmu/gocredits/cmd/gocredits@v1.0.0
+	gocredits . > CREDITS
 
 prerelease:
 	git pull origin --tag
 	ghch -w -N ${VER}
-	gocredits -w .
+	$(MAKE) credits
 	git add CHANGELOG.md CREDITS
 	git commit -m'Bump up version number'
 	git tag ${VER}
 
 prerelease_for_tagpr:
-	gocredits -w .
+	$(MAKE) credits
 	git add CHANGELOG.md CREDITS go.mod go.sum
 
 release:
 	git push origin main --tag
 	goreleaser --clean
 
-.PHONY: default test
+.PHONY: default test credits
