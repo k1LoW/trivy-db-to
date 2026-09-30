@@ -28,9 +28,6 @@ jobs:
           go-version-file: go.mod
           cache: true
 
-      - name: Install deps
-        run: make depsdev
-
       - id: run-tagpr
         name: Run tagpr
         uses: Songmu/tagpr@7ebae2dcc300132baa7cc9dd108c8923b07fc366 # v1.20.3
