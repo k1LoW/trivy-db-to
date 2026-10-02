@@ -1,3 +1,9 @@
+## [v2.2.11](https://github.com/k1LoW/trivy-db-to/compare/v2.2.10...v2.2.11) - 2026-10-02
+
+- ci: generate CREDITS with gocredits v1.0.0 from a make target by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/149
+- chore(deps): bump github.com/xo/dburl from 0.25.1 to 0.26.1 in the dependencies group by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/147
+- chore(deps): bump Songmu/tagpr from 1.20.3 to 1.21.0 in the dependencies group across 1 directory by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/148
+
 ## [v2.2.10](https://github.com/k1LoW/trivy-db-to/compare/v2.2.9...v2.2.10) - 2026-09-21
 
 - chore(deps): bump google.golang.org/grpc from 1.81.0 to 1.82.1 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/131
