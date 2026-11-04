@@ -1,3 +1,8 @@
+## [v2.2.12](https://github.com/k1LoW/trivy-db-to/compare/v2.2.11...v2.2.12) - 2026-11-04
+
+- chore(deps): bump github.com/go-jose/go-jose/v4 from 4.1.4 to 4.1.6 by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/155
+- chore(deps): bump the dependencies group across 1 directory with 5 updates by @dependabot[bot] in https://github.com/k1LoW/trivy-db-to/pull/154
+
 ## [v2.2.11](https://github.com/k1LoW/trivy-db-to/compare/v2.2.10...v2.2.11) - 2026-10-02
 
 - ci: generate CREDITS with gocredits v1.0.0 from a make target by @k1LoW in https://github.com/k1LoW/trivy-db-to/pull/149
