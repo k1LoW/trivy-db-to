@@ -57,7 +57,7 @@ build:
 	go build -ldflags="$(BUILD_LDFLAGS)"
 
 depsdev:
-	go install github.com/xo/usql@v0.19.12
+	go install github.com/xo/usql@v0.21.6
 	go install github.com/k1LoW/tbls@latest
 
 credits:
